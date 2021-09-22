@@ -1,0 +1,11 @@
+<items gfxroot="gfx/items/" version="1">
+    <passive cache="" description="My blood has my back" name="Ancestral assistance" gfx="ancestral_assistance.png" quality="0"/>
+    <passive cache="" description="Mind the gap!"        name="Old relic"            gfx="old_relic.png"            quality="0"/>
+    <passive cache="" description="Smells funky..."      name="Jar of air"           gfx="jar_of_air.png"           quality="0"/>
+    <passive cache="" description="Tastes sweet..."      name="Blood of the abyss"   gfx="blood_of_the_abyss.png"   quality="0"/>
+    <passive cache="" description="Which wand?"          name="Witch wand"           gfx="witch_wand.png"           quality="0" blackhearts="2"/>
+    <passive cache="" description="Hard work pays off!"  name="Sigil of knowledge"   gfx="sigil_of_knowledge.png"   quality="0"/>
+    <passive cache="" description="Banish Bullets"       name="Blank"                gfx="blank.png"                quality="0"/>
+    <active  cache="" description="Stunning!"            name="Concussion"           gfx="concussion.png"           quality="0" chargetype="timed" maxcharges="90"/>
+    <passive cache="" description="Reach for the moon"   name="Wow factor!"          gfx="wow_factor.png"           quality="0"/>
+</items>

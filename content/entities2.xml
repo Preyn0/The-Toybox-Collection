@@ -1,0 +1,41 @@
+<entities anm2root="gfx/" version="5">
+    <!-- Sigil effect -->
+    <entity anm2path="animations/TOYCOL_sigil_of_knowledge.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3323" subtype="1" name="Sigil text" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Blank trigger effect -->
+    <entity anm2path="animations/TOYCOL_blank_trigger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3324" subtype="1" name="TOYCOL_BLANK_TRIGGER" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Blood of the abyss damage foreground effect -->
+    <entity anm2path="animations/TOYCOL_blood_abyss_FG.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3325" subtype="1" name="TOYCOL_BLOOD_OF_THE_ABYSS_FG" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Blood of the abyss damage background effect -->
+    <entity anm2path="animations/TOYCOL_blood_abyss_BG.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3326" subtype="1" name="TOYCOL_BLOOD_OF_THE_ABYSS_BG" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Concussion hit star effect -->
+    <entity anm2path="animations/TOYCOL_concussion_hit_star.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3327" subtype="1" name="TOYCOL_CONCUSSION_HIT_STAR" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Concussion hit line effect -->
+    <entity anm2path="animations/TOYCOL_concussion_hit_line.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3328" subtype="1" name="TOYCOL_CONCUSSION_HIT_LINE" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Concussion swipe effect -->
+    <entity anm2path="animations/TOYCOL_concussion_swipe.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3329" subtype="1" name="TOYCOL_CONCUSSION_SWIPE" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+
+    <!-- Wow factor! pickup effect -->
+    <entity anm2path="animations/TOYCOL_wow_factor.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="3" collisionRadius="18" friction="1" id="1000" variant="3330" subtype="1" name="Wow pickup effect" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+</entities>

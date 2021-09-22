@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>The Toybox Collection!</name>
+    <directory>the toybox collection</directory>
+    <description>Your boredom knows no bound but don't be sad.... Because the toybox collection is here!
+    </description>
+    <version>1.6</version>
+    <visibility>Private</visibility>
+    <tag id="Lua"/>
+    <tag id="Items"/>
+    <tag id="Trinkets"/>
+    <tag id="Familiars"/>
+</metadata>

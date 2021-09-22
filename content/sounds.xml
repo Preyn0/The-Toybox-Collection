@@ -1,0 +1,98 @@
+<sounds root="sfx/">
+	<!-- Sigil of knowledge pickup -->
+	<sound name="TOYCOL_SIGIL_PICKUP">
+		<sample weight="1" path="TOYCOL_wow_factor_collect.wav" />
+	</sound>
+
+	<!-- Sigil of knowledge trigger -->
+	<sound name="TOYCOL_SIGIL_TRIGGER">
+		<sample weight="1" path="TOYCOL_wow_factor_collect.wav" />
+	</sound>
+
+	<!-- Jar of air pickup -->
+	<sound name="TOYCOL_JAR_OF_AIR_PICKUP">
+		<sample weight="1" path="TOYCOL_jar_of_air_pickup.wav" />
+	</sound>
+
+	<!-- Jar of air trigger -->
+	<sound name="TOYCOL_JAR_OF_AIR_TRIGGER">
+		<sample weight="1" path="TOYCOL_jar_of_air_trigger.wav" />
+	</sound>
+
+	<!-- Jar of air block -->
+	<sound name="TOYCOL_JAR_OF_AIR_BLOCK">
+		<sample weight="1" path="TOYCOL_jar_of_air_block_1.wav" />
+		<sample weight="1" path="TOYCOL_jar_of_air_block_2.wav" />
+		<sample weight="1" path="TOYCOL_jar_of_air_block_3.wav" />
+	</sound>
+
+	<!-- Blood of the abyss pickup -->
+	<sound name="TOYCOL_BLOOD_OF_THE_ABYSS_PICKUP">
+		<sample weight="1" path="TOYCOL_blood_of_the_abyss_pickup.wav" />
+	</sound>
+
+	<!-- Blood of the abyss damage -->
+	<sound name="TOYCOL_BLOOD_OF_THE_ABYSS_DAMAGE">
+		<sample weight="1" path="TOYCOL_blood_of_the_abyss_damage.wav" />
+	</sound>
+
+	<!-- Concussion pickup -->
+	<sound name="TOYCOL_CONCUSSION_PICKUP">
+		<sample weight="1" path="TOYCOL_concussion_pickup.wav" />
+	</sound>
+
+	<!-- Concussion hit -->
+	<sound name="TOYCOL_CONCUSSION_HIT">
+		<sample weight="1" path="TOYCOL_concussion_hit.wav" />
+	</sound>
+
+	<!-- Ancestral assistance pickup -->
+	<sound name="TOYCOL_ANCESTRAL_ASSISTANCE_PICKUP">
+		<sample weight="1" path="TOYCOL_ancestral_assistance_pickup.wav" />
+	</sound>
+
+	<!-- Ancestral assistance shoy -->
+	<sound name="TOYCOL_ANCESTRAL_ASSISTANCE_SHOT">
+		<sample weight="1" path="TOYCOL_ancestral_assistance_shot.wav" />
+	</sound>
+
+	<!-- Old relic pickup -->
+	<sound name="TOYCOL_OLD_RELIC_PICKUP">
+		<sample weight="1" path="TOYCOL_old_relic_pickup.wav" />
+	</sound>
+
+	<!-- Old relic step -->
+	<sound name="TOYCOL_OLD_RELIC_STEP">
+		<sample weight="1" path="TOYCOL_old_relic_step_1.wav" />
+		<sample weight="1" path="TOYCOL_old_relic_step_2.wav" />
+		<sample weight="1" path="TOYCOL_old_relic_step_3.wav" />
+	</sound>
+
+	<!-- Wow factor! pickup -->
+	<sound name="TOYCOL_WOW_PICKUP">
+		<sample weight="1" path="TOYCOL_wow_factor_collect.wav" />
+	</sound>
+
+	<!-- Wow factor! tear spawning -->
+	<sound name="TOYCOL_WOW_SPAWN">
+		<sample weight="1" path="TOYCOL_wow_factor_spawn_1.wav" />
+		<sample weight="1" path="TOYCOL_wow_factor_spawn_2.wav" />
+		<sample weight="1" path="TOYCOL_wow_factor_spawn_3.wav" />
+	</sound>
+
+	<!-- Witch wand pickup -->
+	<sound name="TOYCOL_WAND_PICKUP">
+		<sample weight="1" path="TOYCOL_witch_wand_pickup.wav" />
+	</sound>
+	<!-- Witch wand damage boss -->
+	<sound name="TOYCOL_WAND_BOSS">
+		<sample weight="1" path="TOYCOL_witch_wand_boss.wav" />
+	</sound>
+
+	<!-- Witch wand charmed enemy spawn -->
+	<sound name="TOYCOL_WAND_SPAWN">
+		<sample weight="1" path="TOYCOL_witch_wand_spawn_1.wav" />
+		<sample weight="1" path="TOYCOL_witch_wand_spawn_2.wav" />
+		<sample weight="1" path="TOYCOL_witch_wand_spawn_3.wav" />
+	</sound>
+</sounds>

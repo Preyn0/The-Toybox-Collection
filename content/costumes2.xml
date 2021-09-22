@@ -1,0 +1,5 @@
+<costumes anm2root="gfx/characters/">
+    <costume anm2path="TOYCOL_blood_abyss_1.anm2" type="none" />
+    <costume anm2path="TOYCOL_blood_abyss_2.anm2" type="none" />
+    <costume anm2path="TOYCOL_blood_abyss_3.anm2" type="none" hasOverlay="true" />
+</costumes>
