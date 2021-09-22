@@ -18,12 +18,17 @@ TTCG.SIGIL_OF_KNOWLEDGE = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Sigil of knowledge", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Sigil of knowledge", DESC = "Reveals the map after enough rooms have been explored" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "After exploring 65% (or higher) of the floors room the map will be revealed and secret rooms will be opened."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Dead cells".'},
+            {str = "The item and it's effects reference the " .. '"' .. "Explorer's Rune" .. '"' .. " that can be found in the game."},
         }
     }
 }

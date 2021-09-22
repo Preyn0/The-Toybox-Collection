@@ -16,12 +16,17 @@ TTCG.BLANK = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Blank", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Blank", DESC = "Clears bullets and slows enemies upon damage" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "Upon taking damage slows all enemies in the room and clears all bullets within the room."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Enter the Gungeon".'},
+            {str = 'The item is referencing the "Blank" pickups within the game.'},
         }
     }
 }

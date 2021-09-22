@@ -19,12 +19,19 @@ TTCG.OLD_RELIC = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Old relic", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Old relic", DESC = "While walking create shockwaves#Shockwaves fill gaps#Shockwaves damage enemies" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "While walking the player creates a shockwave periodically."},
+            {str = "These shockwaves will fill gaps around the player."},
+            {str = "They will also damage (3x the players damage) and push enemies."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Undermine".'},
+            {str = "The item is referencing the " .. '"' .. "Wayland's" .. '"' ..  " Boots relic that can be found in the game."},
         }
     }
 }

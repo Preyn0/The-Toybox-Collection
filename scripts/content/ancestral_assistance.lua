@@ -19,12 +19,17 @@ TTCG.ANCESTRAL_ASSISTANCE = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Ancestral assistance", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Ancestral assistance", DESC = "Sometimes shoot an arrow of piercing tears" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
             {str = "Deez"},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Ori and the blind forest".'},
+            {str = 'The item is referencing the "Double Jump" skill within the game.'},
         }
     }
 }

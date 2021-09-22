@@ -20,12 +20,19 @@ TTCG.WOW_FACTOR = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Wow factor!", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Wow factor!", DESC = "Sometimes shoot a stream of floating poison tears" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "While shooting grants a 3% chance to start spawning a stream of floating poisonous tears."},
+            {str = "After spawning 35 tears the effect stops."},
+            {str = "If the player is not moving then the stream of tears pauses."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Celeste".'},
+            {str = 'The item is based on a collectible called the "Moon berry" that can be found in the game.'},
         }
     }
 }

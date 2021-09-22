@@ -24,12 +24,17 @@ TTCG.BLOOD_OF_THE_ABYSS = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Blood of the abyss", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Blood of the abyss", DESC = "Ignore 3 hits every floor" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "Grants the player 3 free hits every floor."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Hollow knight".'},
+            {str = 'The item is referencing the "Lifeblood" mechanic within the game.'},
         }
     }
 }

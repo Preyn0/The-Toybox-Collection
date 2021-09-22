@@ -58,12 +58,20 @@ TTCG.WITCH_WAND = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Witch wand", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Witch wand", DESC = "{{BlackHeart}} +1 Black heart#Can spawn a friendly enemy upon damage#Weaken gehenna and mausoleum bosses#Fear resistance" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "Grants one black heart."},
+            {str = "Has a 7% chance to spawn a gehenna or mausoleum themed enemy upon taking damage."},
+            {str = "Weakens the following bosses to 50% health: The Visage, Horny Boys, Siren and The Heretic."},
+            {str = "Grants the player fear immunity"},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Noita".'},
+            {str = 'The item is one of the wands granted to the player upon starting a run.'},
         }
     }
 }

@@ -24,12 +24,18 @@ TTCG.CONCUSSION = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Concussion", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Concussion", DESC = "Pushes, confuses and damages enemies#Enters your pocket upon pickup if possible" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "Upon use pushes, confuses and damages (2x the players damage) enemies that are closeby."},
+            {str = "If the player has an empty pocket then the item will enter their pocket instead of their active slot."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "ScourgeBringer".'},
+            {str = 'The item is referencing the "Concussion" skill that can be unlocked in the game.'},
         }
     }
 }
@@ -59,7 +65,7 @@ function mod:OnUse(_, RNG, player, _, _, _)
             ent:AddVelocity((ent.Position - player.Position):Normalized()*10)
         elseif ent.Type ~= EntityType.ENTITY_PLAYER and ent:IsVulnerableEnemy() then
             ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK | EntityFlag.FLAG_APPLY_IMPACT_DAMAGE | EntityFlag.FLAG_AMBUSH)
-            ent:AddVelocity((ent.Position - player.Position):Normalized()*40)
+            ent:AddVelocity((ent.Position - player.Position):Normalized()*45)
             ent:TakeDamage(player.Damage*TTCG.CONCUSSION.DAMAGE_MULTIPLIER, (DamageFlag.DAMAGE_EXPLOSION | DamageFlag.DAMAGE_CRUSH), EntityRef(player), 0)
         
             if not ent:IsBoss() or RNG:RandomInt(100)+1 <= TTCG.CONCUSSION.BOSS_CHANCE then

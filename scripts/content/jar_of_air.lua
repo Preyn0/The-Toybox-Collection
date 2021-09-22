@@ -20,12 +20,19 @@ TTCG.JAR_OF_AIR = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Jar of air", DESC = "Deez" }
+        { LANG = "en_us", NAME = "Jar of air", DESC = "Poison resistance#Some enemies are poisoned when entering a room" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "Grants poison cloud and poison damage resistance."},
+            {str = "Spawns farts and poisons random enemies upon entering a room."},
+            {str = "The poisoning lasts a random amount of time."},
+        },
+        { -- Trivia
+            {str = "Trivia", fsize = 2, clr = 3, halign = 0},
+            {str = 'This item is a reference to the game "Terraria".'},
+            {str = 'The item is referencing the "Fart in a Jar" accessory that can be found in the game.'},
         }
     }
 }
@@ -45,7 +52,7 @@ function mod:OnEnter()
 
                 for i=1, #entities do
                     local RNG = player:GetCollectibleRNG(TTCG.JAR_OF_AIR.ID)
-                    if entities[i]:IsEnemy() and RNG:RandomInt(100)+1 <= TTCG.JAR_OF_AIR.TRIGGER_CHANCE then
+                    if entities[i]:IsVulnerableEnemy() and RNG:RandomInt(100)+1 <= TTCG.JAR_OF_AIR.TRIGGER_CHANCE then
                         triggered = true
                         TTCG.GAME:Fart(entities[i].Position, 85, player)
                         entities[i]:AddPoison(EntityRef(player), RNG:RandomInt(TTCG.JAR_OF_AIR.ADDED_POISON)+TTCG.JAR_OF_AIR.MIN_POISON, 1)
