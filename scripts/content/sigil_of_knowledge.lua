@@ -11,7 +11,7 @@ TTCG.SIGIL_OF_KNOWLEDGE = {
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_SIGIL_PICKUP"),
     TRIGGER_SFX = SoundEffect.SOUND_BLACK_POOF, Isaac.GetSoundIdByName("TOYCOL_SIGIL_TRIGGER"),
 
-    CLEAR_PERCENT = 65,
+    CLEAR_PERCENT = 55,
 
     TYPE = 100,
     POOLS = {
@@ -23,7 +23,7 @@ TTCG.SIGIL_OF_KNOWLEDGE = {
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "After exploring 65% (or higher) of the floors room the map will be revealed and secret rooms will be opened."},
+            {str = "After exploring 55% (or higher) of the floors room the map will be revealed and secret rooms will be opened."},
         },
         { -- Trivia
             {str = "Trivia", fsize = 2, clr = 3, halign = 0},

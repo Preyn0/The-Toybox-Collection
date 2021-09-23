@@ -19,13 +19,13 @@ TTCG.OLD_RELIC = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Old relic", DESC = "While walking create shockwaves#Shockwaves fill gaps#Shockwaves damage enemies" }
+        { LANG = "en_us", NAME = "Old relic", DESC = "While walking create stomps#Stomps fill gaps#Stomps damage enemies" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "While walking the player creates a shockwave periodically."},
-            {str = "These shockwaves will fill gaps around the player."},
+            {str = "While walking the player creates a stomp periodically."},
+            {str = "These stomps will fill gaps around the player."},
             {str = "They will also damage (3x the players damage) and push enemies."},
         },
         { -- Trivia
