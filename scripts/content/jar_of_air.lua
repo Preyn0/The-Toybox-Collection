@@ -11,6 +11,7 @@ TTCG.JAR_OF_AIR = {
     TRIGGER_SFX = SoundEffect.SOUND_POOP_LASER, -- Isaac.GetSoundIdByName("TOYCOL_JAR_OF_AIR_TRIGGER"),
     BLOCK_SFX = SoundEffect.SOUND_BISHOP_HIT, -- Isaac.GetSoundIdByName("TOYCOL_JAR_OF_AIR_BLOCK"),
 
+    LOCUST_AMOUNT = 3,
     TRIGGER_CHANCE = 10,
     MIN_POISON = 41,
     ADDED_POISON = 260,
@@ -75,12 +76,26 @@ end
 
 function mod:OnGrab(player) TTCG.SFX:Play(TTCG.JAR_OF_AIR.PICKUP_SFX, 1, 0) end
 
+function mod:OnCollect(player)
+    if player.Variant ~= PlayerType.PLAYER_KEEPER and player.Variant ~= PlayerType.PLAYER_KEEPER_B then
+        player:AddMaxHearts(2)
+        player:AddRottenHearts(1)
+    else
+        player:AddBlueFlies(5, player.Position, player)
+    end
+    
+    for i=1, TTCG.JAR_OF_AIR.LOCUST_AMOUNT do
+        Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, 305, player.Position, Vector(0,0), player)
+    end
+end
+
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.OnEnter)
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.OnDamage, EntityType.ENTITY_PLAYER)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.JAR_OF_AIR.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.JAR_OF_AIR.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.JAR_OF_AIR.ID)
 
 return TTCG.JAR_OF_AIR

@@ -17,7 +17,7 @@ TTCG.CONCUSSION = {
 
     RADIUS = 100,
     BOSS_CHANCE = 30,
-    DAMAGE_MULTIPLIER = 2,
+    DAMAGE_MULTIPLIER = 2.5,
 
     TYPE = 100,
     POOLS = {
@@ -29,7 +29,7 @@ TTCG.CONCUSSION = {
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Upon use pushes, confuses and damages (2x the players damage) enemies that are closeby."},
+            {str = "Upon use pushes, confuses and damages (2.5x the players damage) enemies that are closeby."},
             {str = "If the player has an empty pocket then the item will enter their pocket instead of their active slot."},
         },
         { -- Trivia
