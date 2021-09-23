@@ -117,9 +117,9 @@ function mod:OnGrab() TTCG.SharedOnGrab(TTCG.WITCH_WAND.PICKUP_SFX) end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OnPlayerUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OnPlayerUpdate                    )
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,    mod.OnDamage, EntityType.ENTITY_PLAYER)
-mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT,      mod.OnSpawn)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT,      mod.OnSpawn                           )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.WITCH_WAND.ID)
 

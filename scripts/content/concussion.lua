@@ -118,7 +118,7 @@ end
 --##############################################################################--
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.OnUse, TTCG.CONCUSSION.ID)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.CONCUSSION.ID)
-TCC_API:AddTTCCallback("TCC_EXIT_QUEUE", mod.OnCollect, TTCG.CONCUSSION.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.CONCUSSION.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.CONCUSSION.ID)
 
 return TTCG.CONCUSSION

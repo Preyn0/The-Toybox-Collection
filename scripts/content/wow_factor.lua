@@ -100,10 +100,10 @@ function mod:OnExit() cachedPlayers = nil end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.OnFire)
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.OnUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  mod.OnStart)
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      mod.OnExit )
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,     mod.OnFire  )
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE,        mod.OnUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  mod.OnStart )
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      mod.OnExit  )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.WOW_FACTOR.ID)
 

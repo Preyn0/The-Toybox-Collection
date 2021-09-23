@@ -91,7 +91,7 @@ end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.OnEnter)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,   mod.OnEnter                           )
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.OnDamage, EntityType.ENTITY_PLAYER)
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.JAR_OF_AIR.ID)

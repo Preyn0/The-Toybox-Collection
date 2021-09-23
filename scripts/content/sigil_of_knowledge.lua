@@ -115,17 +115,11 @@ function mod:OnGrab() TTCG.SharedOnGrab(TTCG.SIGIL_OF_KNOWLEDGE.PICKUP_SFX) end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,        mod.OnNewFloor )
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,         mod.OnEnter    )
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,     mod.OnLoad     )
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,         mod.OnExit     )
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,        mod.OnNewFloor)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,         mod.OnEnter   )
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,     mod.OnLoad    )
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,         mod.OnExit    )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.SIGIL_OF_KNOWLEDGE.ID)
-
--- if TCC_API.OnQueueEvent then
---     print("callback exists")
--- else
---     print("callback doesn't exist")
--- end
 
 return TTCG.SIGIL_OF_KNOWLEDGE
