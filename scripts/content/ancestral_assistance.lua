@@ -19,12 +19,14 @@ TTCG.ANCESTRAL_ASSISTANCE = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Ancestral assistance", DESC = "Sometimes shoot an arrow of piercing tears" }
+        { LANG = "en_us", NAME = "Ancestral assistance", DESC = "Sometimes shoot an arrow of piercing tears#Grants a one-use holy mantle" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
-            {str = "Deez"},
+            {str = "The player has a 4% chance to shoot an arrow of tears."},
+            {str = "These tears will have piercing, Do 1.8x the players damage and high knockback."},
+            {str = "Upon pickup this item will also grant a one-use holy mantle."},
         },
         { -- Trivia
             {str = "Trivia", fsize = 2, clr = 3, halign = 0},
@@ -96,13 +98,16 @@ function mod:OnFire(tear)
     end
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.ANCESTRAL_ASSISTANCE.PICKUP_SFX, 1, 10) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.ANCESTRAL_ASSISTANCE.PICKUP_SFX) end
+function mod:OnCollect(player) player:UseCard(Card.CARD_HOLY, 259) end
+
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.OnFire)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.ANCESTRAL_ASSISTANCE.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.ANCESTRAL_ASSISTANCE.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.ANCESTRAL_ASSISTANCE.ID)
 
 return TTCG.ANCESTRAL_ASSISTANCE

@@ -112,7 +112,7 @@ function mod:OnSpawn(NPC)
     end
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.WITCH_WAND.PICKUP_SFX, 2, 10) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.WITCH_WAND.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--

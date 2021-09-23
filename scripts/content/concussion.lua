@@ -102,7 +102,7 @@ function mod:OnUse(_, RNG, player, _, _, _)
     end
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.CONCUSSION.PICKUP_SFX, 1, 10) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.CONCUSSION.PICKUP_SFX) end
 
 function mod:OnCollect(player)
     if player:GetActiveItem(ActiveSlot.SLOT_POCKET) == 0 then

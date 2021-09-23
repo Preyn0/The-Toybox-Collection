@@ -90,8 +90,7 @@ function mod:OnPlayerUpdate(player)
     end
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.OLD_RELIC.PICKUP_SFX, 2, 10) end
-
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.OLD_RELIC.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--

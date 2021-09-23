@@ -18,6 +18,11 @@ local content = { 'ancestral_assistance', 'old_relic', 'blank', 'concussion', 'w
 
 require('scripts.toycol_callbacks') -- Import custom/shared callbacks
 
+function TTCG.SharedOnGrab(sound)
+    TTCG.SFX:Play(sound, 1, 10) 
+    TTCG.SFX:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
+end
+
 -- Import content
 local contentImports = {}
 for _, title in pairs(content) do table.insert(contentImports, require(path .. title)) end

@@ -16,11 +16,12 @@ TTCG.BLANK = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Blank", DESC = "Clears bullets and slows enemies upon damage" }
+        { LANG = "en_us", NAME = "Blank", DESC = "{{SoulHeart}} +1 Soul heart#Clears bullets and slows enemies upon damage" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
+            {str = "Grants a soul heart."},
             {str = "Upon taking damage slows all enemies in the room and clears all bullets within the room."},
         },
         { -- Trivia
@@ -64,7 +65,7 @@ function mod:OnDamage(entity, _, flags, _, _)
     end
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.BLANK.PICKUP_SFX, 1, 10) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.BLANK.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--

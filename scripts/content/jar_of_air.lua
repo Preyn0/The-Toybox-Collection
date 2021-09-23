@@ -21,11 +21,14 @@ TTCG.JAR_OF_AIR = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Jar of air", DESC = "Poison resistance#Some enemies are poisoned when entering a room" }
+        { LANG = "en_us", NAME = "Jar of air", DESC = "{{ArrowUp}} +1 Health up#{{RottenHeart}} +1 Rotten heart#{{Collectible706}} +3 Poison locusts#Poison resistance#Some enemies are poisoned when entering a room" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
+            {str = "Grants a health up and one rotten heart upon pickup."},
+            {str = "If the player can't carry health 5 normal poison flies will be spawned instead."},
+            {str = "Also adds 3 abyss poison locusts to the player when picked up."},
             {str = "Grants poison cloud and poison damage resistance."},
             {str = "Spawns farts and poisons random enemies upon entering a room."},
             {str = "The poisoning lasts a random amount of time."},
@@ -74,15 +77,11 @@ function mod:OnDamage(entity, _, flags, source, _)
     end
 end
 
-function mod:OnGrab(player) TTCG.SFX:Play(TTCG.JAR_OF_AIR.PICKUP_SFX, 1, 0) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.JAR_OF_AIR.PICKUP_SFX) end
 
 function mod:OnCollect(player)
-    if player.Variant ~= PlayerType.PLAYER_KEEPER and player.Variant ~= PlayerType.PLAYER_KEEPER_B then
-        player:AddMaxHearts(2)
-        player:AddRottenHearts(1)
-    else
-        player:AddBlueFlies(5, player.Position, player)
-    end
+    player:AddMaxHearts(2)
+    player:AddRottenHearts(2)
     
     for i=1, TTCG.JAR_OF_AIR.LOCUST_AMOUNT do
         Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, 305, player.Position, Vector(0,0), player)

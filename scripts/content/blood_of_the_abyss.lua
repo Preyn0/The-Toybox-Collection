@@ -19,17 +19,28 @@ TTCG.BLOOD_OF_THE_ABYSS = {
 
     TEARS = 7,
 
+    PLAYER_BLACKLIST = {
+        [PlayerType.PLAYER_KEEPER] = true,
+        [PlayerType.PLAYER_THELOST] = true,
+        [PlayerType.PLAYER_KEEPER_B] = true,
+        [PlayerType.PLAYER_THELOST_B] = true,
+        [PlayerType.PLAYER_BETHANY] = true,
+        [PlayerType.PLAYER_THEFORGOTTEN] = true,
+    },
+
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Blood of the abyss", DESC = "Ignore 3 hits every floor" }
+        { LANG = "en_us", NAME = "Blood of the abyss", DESC = "Ignore 3 hits every floor#{{SoulHeart}} Replaces all heart containers with soul hearts" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
             {str = "Effect", fsize = 2, clr = 3, halign = 0},
             {str = "Grants the player 3 free hits every floor."},
+            {str = "Removes all bone hearts and heart containers with soul hearts."},
+            {str = "This replacement effect is excluded for the following characters: Keeper, Tained Keeper, Lost, Tainted Lost, Bethany and The Forgotten"},
         },
         { -- Trivia
             {str = "Trivia", fsize = 2, clr = 3, halign = 0},
@@ -142,7 +153,31 @@ function mod:OnExit()
     currentHealth = nil
 end
 
-function mod:OnGrab(player) TTCG.SFX:Play(TTCG.BLOOD_OF_THE_ABYSS.PICKUP_SFX, 1, 0) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.BLOOD_OF_THE_ABYSS.PICKUP_SFX) end
+
+function mod:OnCollect(player)
+    local hearts = player:GetEffectiveMaxHearts()
+    if hearts > 0 and not TTCG.BLOOD_OF_THE_ABYSS.PLAYER_BLACKLIST[player:GetPlayerType()] then
+        local slot1 = player:GetActiveCharge(ActiveSlot.SLOT_PRIMARY)
+        local slot2 = player:GetActiveCharge(ActiveSlot.SLOT_SECONDARY)
+        local slot3 = player:GetActiveCharge(ActiveSlot.SLOT_POCKET)
+
+        -- Temp fullcharge all actives in case of the player carrying alabaster box and such
+        player:FullCharge(ActiveSlot.SLOT_PRIMARY, true)
+        player:FullCharge(ActiveSlot.SLOT_SECONDARY, true)
+        player:FullCharge(ActiveSlot.SLOT_POCKET, true)
+
+        player:AddMaxHearts(-hearts, true)
+        player:AddBoneHearts(-hearts, true)
+        player:AddSoulHearts(hearts)
+
+        player:SetActiveCharge(slot1, ActiveSlot.SLOT_PRIMARY)
+        player:SetActiveCharge(slot2, ActiveSlot.SLOT_SECONDARY)
+        player:SetActiveCharge(slot3, ActiveSlot.SLOT_POCKET)
+
+        TTCG.SFX:Stop(SoundEffect.SOUND_BATTERYCHARGE)
+    end
+end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
@@ -153,6 +188,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,     mod.OnNewFloor              
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      mod.OnExit                            )
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  mod.OnLoad                            )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.BLOOD_OF_THE_ABYSS.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.BLOOD_OF_THE_ABYSS.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.BLOOD_OF_THE_ABYSS.ID)
 
 return TTCG.BLOOD_OF_THE_ABYSS

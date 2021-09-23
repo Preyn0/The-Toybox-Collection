@@ -91,7 +91,7 @@ function mod:OnGrab(player)
     Effect.DepthOffset = 10000
     Effect:Update()
 
-    TTCG.SFX:Play(TTCG.WOW_FACTOR.PICKUP_SFX, 1, 10)
+    TTCG.SharedOnGrab(TTCG.WOW_FACTOR.PICKUP_SFX)
 end
 
 function mod:OnStart() cachedPlayers = {} end

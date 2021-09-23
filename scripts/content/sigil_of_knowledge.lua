@@ -110,7 +110,7 @@ function mod:OnExit()
     clearData = nil
 end
 
-function mod:OnGrab() TTCG.SFX:Play(TTCG.SIGIL_OF_KNOWLEDGE.PICKUP_SFX, 2, 10) end
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.SIGIL_OF_KNOWLEDGE.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
