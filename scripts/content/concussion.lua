@@ -22,6 +22,10 @@ TTCG.CONCUSSION = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_DEVIL,
+        ItemPoolType.POOL_RED_CHEST,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_DEVIL,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Concussion", DESC = "Pushes, confuses and damages enemies#Enters your pocket upon pickup if possible" }

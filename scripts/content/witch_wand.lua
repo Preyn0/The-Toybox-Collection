@@ -56,6 +56,9 @@ TTCG.WITCH_WAND = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_CURSE,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_CURSE,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Witch wand", DESC = "{{BlackHeart}} +1 Black heart#Can spawn a friendly enemy upon damage#Weaken gehenna and mausoleum bosses#Fear resistance" }

@@ -14,6 +14,9 @@ TTCG.BLANK = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_CRANE_GAME,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_SHOP,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Blank", DESC = "{{SoulHeart}} +1 Soul heart#Clears bullets and slows enemies upon damage" }

@@ -17,6 +17,9 @@ TTCG.ANCESTRAL_ASSISTANCE = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_ANGEL,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_ANGEL,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Ancestral assistance", DESC = "Sometimes shoot an arrow of piercing tears#Grants a one-use holy mantle" }

@@ -16,6 +16,7 @@ TTCG.SIGIL_OF_KNOWLEDGE = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_SHOP,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Sigil of knowledge", DESC = "Reveals the map after enough rooms have been explored" }

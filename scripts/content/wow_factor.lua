@@ -18,6 +18,7 @@ TTCG.WOW_FACTOR = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_GREED_TREASUREL,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Wow factor!", DESC = "Sometimes shoot a stream of floating poison tears" }

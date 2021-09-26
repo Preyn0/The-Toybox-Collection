@@ -17,6 +17,8 @@ TTCG.OLD_RELIC = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_SHOP,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Old relic", DESC = "While walking create stomps#Stomps fill gaps#Stomps damage enemies" }

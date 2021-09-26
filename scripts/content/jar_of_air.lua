@@ -19,9 +19,11 @@ TTCG.JAR_OF_AIR = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_GREED_TREASUREL,
+        ItemPoolType.POOL_GREED_SHOP,
     },
     EID_DESCRIPTIONS = {
-        { LANG = "en_us", NAME = "Jar of air", DESC = "{{ArrowUp}} +1 Health up#{{RottenHeart}} +1 Rotten heart#{{Collectible706}} +3 Poison locusts#Poison resistance#Some enemies are poisoned when entering a room" }
+        { LANG = "en_us", NAME = "Jar of air", DESC = "{{ArrowUp}} +1 Health up#{{RottenHeart}} +1 Rotten heart#{{Collectible706}} +3 Poison locusts#Poison resistance#Some enemies are poisoned when appearing" }
     },
     ENC_DESCRIPTION = {
         { -- Effect
@@ -30,7 +32,7 @@ TTCG.JAR_OF_AIR = {
             {str = "If the player can't carry health 5 normal poison flies will be spawned instead."},
             {str = "Also adds 3 abyss poison locusts to the player when picked up."},
             {str = "Grants poison cloud and poison damage resistance."},
-            {str = "Spawns farts and poisons random enemies upon entering a room."},
+            {str = "Spawns farts and poisons random enemies when they spawn in."},
             {str = "The poisoning lasts a random amount of time."},
         },
         { -- Trivia

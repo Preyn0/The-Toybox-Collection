@@ -31,6 +31,8 @@ TTCG.BLOOD_OF_THE_ABYSS = {
     TYPE = 100,
     POOLS = {
         ItemPoolType.POOL_TREASURE,
+        ItemPoolType.POOL_SECRET,
+        ItemPoolType.POOL_GREED_SECRET,
     },
     EID_DESCRIPTIONS = {
         { LANG = "en_us", NAME = "Blood of the abyss", DESC = "Ignore 3 hits every floor#{{SoulHeart}} Replaces all heart containers with soul hearts" }
