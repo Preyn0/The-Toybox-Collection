@@ -1,0 +1,73 @@
+<ItemPools>
+	<Pool Name="treasure">
+	    <Item Name="Ancestral assistance" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Old relic" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Jar of air" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Blood of the abyss" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Witch wand" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Sigil of knowledge" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Blank" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Wow factor!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Concussion" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedTreasure">
+		<Item Name="Ancestral assistance" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Old relic" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Jar of air" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Witch wand" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Blank" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Wow factor!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Concussion" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedShop">
+	    <Item Name="Old relic" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Jar of air" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	    <Item Name="Blank" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="shop">
+	    <Item Name="Sigil of knowledge" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+
+	<Pool Name="craneGame">
+	    <Item Name="Blank" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="secret">
+	    <Item Name="Blood of the abyss" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="curse">
+	    <Item Name="Witch wand" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedCurse">
+	    <Item Name="Witch wand" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedSecret">
+	    <Item Name="Blood of the abyss" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="devil">
+		<Item Name="Concussion" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedDevil">
+		<Item Name="Concussion" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="angel">
+		<Item Name="Ancestral assistance" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedAngel">
+		<Item Name="Ancestral assistance" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="redChest">
+		<Item Name="Concussion" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+</ItemPools>

@@ -41,32 +41,17 @@ TTCG.JAR_OF_AIR = {
     }
 }
 
+local hasJar = nil
+
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnEnter()
-    if not TTCG.GAME:GetRoom():IsClear() then
-        local numPlayers = TTCG.GAME:GetNumPlayers()
-        for i=1,numPlayers do
-            local player = TTCG.GAME:GetPlayer(tostring((i-1)))
-            
-            if player:HasCollectible(TTCG.JAR_OF_AIR.ID) then
-                local entities = Isaac.GetRoomEntities()
-                local triggered = false
-
-                for i=1, #entities do
-                    local RNG = player:GetCollectibleRNG(TTCG.JAR_OF_AIR.ID)
-                    if entities[i]:IsVulnerableEnemy() and RNG:RandomInt(100)+1 <= TTCG.JAR_OF_AIR.TRIGGER_CHANCE then
-                        triggered = true
-                        TTCG.GAME:Fart(entities[i].Position, 85, player)
-                        entities[i]:AddPoison(EntityRef(player), RNG:RandomInt(TTCG.JAR_OF_AIR.ADDED_POISON)+TTCG.JAR_OF_AIR.MIN_POISON, 1)
-                    end
-                end
-
-                if triggered then TTCG.SFX:Play(TTCG.JAR_OF_AIR.TRIGGER_SFX, 1, 0, false, 2.5) end
-                return
-            end
-        end
+function mod:OnSpawn(NPC)
+    if hasJar and NPC:IsVulnerableEnemy() and hasJar:RandomInt(100)+1 <= TTCG.JAR_OF_AIR.TRIGGER_CHANCE then
+        TTCG.GAME:Fart(NPC.Position, 85, player)
+        NPC:AddPoison(EntityRef(Isaac.GetPlayer(0)), hasJar:RandomInt(TTCG.JAR_OF_AIR.ADDED_POISON)+TTCG.JAR_OF_AIR.MIN_POISON, 1)
+        hasJar:Next()
+        if not TTCG.SFX:IsPlaying(TTCG.JAR_OF_AIR.TRIGGER_SFX) then TTCG.SFX:Play(TTCG.JAR_OF_AIR.TRIGGER_SFX, 1, 0, false, 2.5) end
     end
 end
 
@@ -77,7 +62,21 @@ function mod:OnDamage(entity, _, flags, source, _)
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.JAR_OF_AIR.PICKUP_SFX) end
+function mod:OnLoad(isCont)
+    if isCont then
+        local numPlayers = TTCG.GAME:GetNumPlayers()
+        for i=1,numPlayers do
+            local player = TTCG.GAME:GetPlayer(tostring((i-1)))
+            
+            if player:HasCollectible(TTCG.JAR_OF_AIR.ID) then
+                hasJar = player:GetCollectibleRNG(TTCG.JAR_OF_AIR.ID)
+                return
+            end
+        end
+    else
+        hasJar = nil
+    end
+end
 
 function mod:OnCollect(player)
     player:AddMaxHearts(2)
@@ -86,13 +85,18 @@ function mod:OnCollect(player)
     for i=1, TTCG.JAR_OF_AIR.LOCUST_AMOUNT do
         Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, 305, player.Position, Vector(0,0), player)
     end
+
+    hasJar = player:GetCollectibleRNG(TTCG.JAR_OF_AIR.ID)
 end
+
+function mod:OnGrab() TTCG.SharedOnGrab(TTCG.JAR_OF_AIR.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,   mod.OnEnter                           )
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.OnDamage, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT,   mod.OnSpawn                           )
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.OnLoad                          )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.JAR_OF_AIR.ID)
 TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.JAR_OF_AIR.ID)
