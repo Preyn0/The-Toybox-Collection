@@ -48,7 +48,7 @@ TTCG.JAR_OF_AIR = {
 --##############################################################################--
 
 function mod:OnSpawn(NPC)
-    if NPC:IsVulnerableEnemy() and TTCG.SharedHas(TTCG.JAR_OF_AIR.ID) then
+    if NPC:IsActiveEnemy(false) and TTCG.SharedHas(TTCG.JAR_OF_AIR.ID) then
         local RNG = RNG()
         RNG:SetSeed(NPC.InitSeed, 1)
 

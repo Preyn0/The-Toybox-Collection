@@ -65,7 +65,7 @@ function mod:OnBomb(source)
 end
 
 function mod:OnKnife(source, col)
-    if cachedPlayers and col:IsVulnerableEnemy() then 
+    if cachedPlayers and col:IsActiveEnemy(false) then 
         triggerEffect(TTCG.GetShooter(source), "KNIFE_CHANCE")
     end
 end

@@ -67,7 +67,7 @@ function mod:OnUse(_, RNG, player, _, _, _)
             Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, ent.Position, ent.Velocity:Rotated(180), player)
         elseif (ent.Type == EntityType.ENTITY_PICKUP or ent.Type == EntityType.ENTITY_BOMBDROP) then
             ent:AddVelocity((ent.Position - player.Position):Normalized()*10)
-        elseif ent.Type ~= EntityType.ENTITY_PLAYER and ent:IsVulnerableEnemy() then
+        elseif ent.Type ~= EntityType.ENTITY_PLAYER and ent:IsActiveEnemy(false) then
             ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK | EntityFlag.FLAG_APPLY_IMPACT_DAMAGE | EntityFlag.FLAG_AMBUSH)
             ent:AddVelocity((ent.Position - player.Position):Normalized()*45)
             ent:TakeDamage(player.Damage*TTCG.CONCUSSION.DAMAGE_MULTIPLIER, (DamageFlag.DAMAGE_EXPLOSION | DamageFlag.DAMAGE_CRUSH), EntityRef(player), 0)

@@ -108,7 +108,7 @@ function mod:OnBomb(source)
 end
 
 function mod:OnKnife(source, col)
-    if col:IsVulnerableEnemy() then 
+    if col:IsActiveEnemy(false) then 
         triggerEffect(TTCG.GetShooter(source), source, source.TearFlags, "KNIFE_CHANCE")
     end
 end
