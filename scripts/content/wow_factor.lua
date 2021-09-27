@@ -12,6 +12,8 @@ TTCG.WOW_FACTOR = {
     SPAWN_SFX = SoundEffect.SOUND_BULB_FLASH, --Isaac.GetSoundIdByName("TOYCOL_WOW_SPAWN"),
 
     CHANCE = 3,
+    KNIFE_CHANCE = 4,
+    LASER_CHANCE = 9,
     AMOUNT = 35,
     RATE = 3,
 
@@ -43,20 +45,40 @@ local cachedPlayers = nil
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnFire(tear)
-    if cachedPlayers and tear.SpawnerType == EntityType.ENTITY_PLAYER and tear.SpawnerEntity then
-        local player = tear.SpawnerEntity:ToPlayer()
+local function triggerEffect(player, type)
+    if player and player:HasCollectible(TTCG.WOW_FACTOR.ID) then
+        local identifier = player.ControllerIndex..","..player:GetPlayerType()
 
-        if player:HasCollectible(TTCG.WOW_FACTOR.ID) then
-            local identifier = player.ControllerIndex..","..player:GetPlayerType()
-
-            if not cachedPlayers[identifier] and player:GetCollectibleRNG(TTCG.WOW_FACTOR.ID):RandomInt(100)+1 <= TTCG.WOW_FACTOR.CHANCE then
-                cachedPlayers[identifier] = {
-                    ['amount'] = TTCG.WOW_FACTOR.AMOUNT, 
-                    ['player'] = player 
-                }
-            end
+        if not cachedPlayers[identifier] and player:GetCollectibleRNG(TTCG.WOW_FACTOR.ID):RandomInt(100)+1 <= TTCG.WOW_FACTOR[type] then
+            cachedPlayers[identifier] = {
+                ['amount'] = TTCG.WOW_FACTOR.AMOUNT, 
+                ['player'] = player 
+            }
         end
+    end
+end
+
+function mod:OnBomb(source)
+    if cachedPlayers and source.IsFetus then 
+        triggerEffect(TTCG.GetShooter(source), "CHANCE")
+    end
+end
+
+function mod:OnKnife(source, col)
+    if cachedPlayers and col:IsVulnerableEnemy() then 
+        triggerEffect(TTCG.GetShooter(source), "KNIFE_CHANCE")
+    end
+end
+
+function mod:OnLaser(source)
+    if cachedPlayers then 
+        triggerEffect(TTCG.GetShooter(source), "LASER_CHANCE")
+    end
+end
+
+function mod:OnFire(source)
+    if cachedPlayers then 
+        triggerEffect(TTCG.GetShooter(source), "CHANCE")
     end
 end
 
@@ -101,10 +123,13 @@ function mod:OnExit() cachedPlayers = nil end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,     mod.OnFire  )
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE,        mod.OnUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  mod.OnStart )
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      mod.OnExit  )
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,      mod.OnFire  )
+mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     mod.OnLaser )
+mod:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, mod.OnKnife )
+mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      mod.OnBomb  )
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE,         mod.OnUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,   mod.OnStart )
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,       mod.OnExit  )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.WOW_FACTOR.ID)
 

@@ -37,6 +37,18 @@ function TTCG.SharedHas(id)
     return false
 end
 
+function TTCG.GetShooter(ent)
+    if ent and ent.SpawnerType == EntityType.ENTITY_PLAYER then
+        if ent.SpawnerEntity ~= nil then
+            return ent.SpawnerEntity:ToPlayer()
+        elseif ent.Parent ~= nil then
+            return ent.Parent:ToPlayer()
+        end
+    end
+
+    return nil
+end
+
 -- Import content
 local contentImports = {}
 for _, title in pairs(content) do table.insert(contentImports, require(path .. title)) end
