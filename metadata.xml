@@ -2,7 +2,74 @@
 <metadata>
     <name>The Toybox Collection!</name>
     <directory>the toybox collection</directory>
-    <description>Your boredom knows no bound but don't be sad.... Because the toybox collection is here!
+    <description>Get ready to play because your toybox has been filled!
+
+[h1] Features [/h1]
+This mod adds a small collection of [url=https://docs.google.com/document/d/1uhVFM-xT_77Ttw7B1cVaRSV-RNIRdjHLOEZVKFnXwFY/edit?usp=sharing]toys to play with[/url] including:
+[list]
+    [*]One new active item
+    [*]Eight new passive items
+    [*]Endless entertainment!
+[/list]
+
+[h1] Interactions [/h1]
+- This mod has support for both "[url=https://steamcommunity.com/sharedfiles/filedetails/?id=836319872]External Item Descriptions[/url]" and "[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2376005362]Encyclopedia[/url]" to help you enjoy it's toys to the fullest
+
+[h1] Content [/h1]
+
+Higher detail descriptions and information can be found [url=https://docs.google.com/document/d/1uhVFM-xT_77Ttw7B1cVaRSV-RNIRdjHLOEZVKFnXwFY/edit?usp=sharing]here[/url]
+
+[hr]
+[h2][b]Ancestral assistance[/b] - [i]My blood has my back[/i][/h2] [h4]passive[/h4]
+Allows the player to ocationally shoot an arrow of high damage piercing tears. 
+
+And grants a one-time holy mantle upon pickup.
+
+[hr]
+[h2][b]Blank[/b] - [i]Banish bullets[/i][/h2] [h4]passive[/h4]
+While carried upon taking damage all enemy projectiles in the room will be destroyed and all enemies in the room will be slowed.
+
+Also grants a soul heart upon pickup.
+
+[hr]
+[h2][b]Blood of the abyss[/b] - [i]Tastes sweet...[/i][/h2] [h4]passive[/h4]
+While carried the player is able to ignore three hits. These three "lives" are regenerated upon entering a new floor.
+
+Upon pickup the item also removes all heart containers and replaces them with soul hearts.
+
+[hr]
+[h2][b]Concussion[/b] - [i]Stunning![/i][/h2] [h4]active[/h4]
+Concussion is an active item that recharges over time. When used all enemies close to the player get confused, damaged and recieve major knockback.
+
+When picked up if the player has an empty pocket then the item will enter the players pocket slot instead of their active item slots.
+
+[hr]
+[h2][b]Jar of air[/b] - [i]Smells funky...[/i][/h2] [h4]passive[/h4]
+While carried enemies have a chance to be poisoned when they appear. And the player gains resistance to poison damage.
+
+Upon pickup the item grants a health up and a rotten heart. And on top of this the item also grants three permanent poison locusts.
+
+[hr]
+[h2][b]Old relic[/b] - [i]Mind the gap![/i][/h2] [h4]passive[/h4]
+While held Old relic grants the player the ability to periodically create "stomps" around them. These stomps will do major damage to enemies that are close enough to the player. And these stomps will also fill gaps around the player.
+
+[hr]
+[h2][b]Sigil of knowledge[/b] - [i]Hard work pays off![/i][/h2] [h4]passive[/h4]
+When the player has entered 55% or more of the current floor this item reveal the rest of the map and opens all secret rooms. This reveal includes the ultra secret room.
+
+[hr]
+[h2][b]Witch wand[/b] - [i]Which wand?[/i][/h2] [h4]passive[/h4]
+While held this item causes the player to spawn charmed enemies from the mausoleum and gehanna floors upon damage. On top of this bosses from the same floors will spawn with half health (not including mom or mom's heart). The item also grants fear resistance.
+
+And when picked up the item grants a black heart.
+
+[hr]
+[h2][b]Wow factor![/b] - [i]Reach for the moon![/i][/h2] [h4]passive[/h4]
+When shooting the player has a chance to trigger this item's effect. Upon triggering the player will spawn a trail of floating tears that carry the players effects and the mysterious liquid effect. But this trail will stop appearing while the player is standing still.
+
+[hr]
+[h1] Credits [/h1]
+Taking a peek at other mods is something which i'll often do if i cannot figure something out myself. Credit to the "[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2557887449]Red Map mod[/url]" which was used as an example for the "Sigil of knowledge" item logic.
     </description>
     <version>1.6</version>
     <visibility>Private</visibility>
