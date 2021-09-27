@@ -102,15 +102,11 @@ end
 
 function mod:OnSpawn(NPC)
     if TTCG.WITCH_WAND.BOSSES[NPC.Type] then
-        local numPlayers = TTCG.GAME:GetNumPlayers()
-        for i=1,numPlayers do
-            local player = TTCG.GAME:GetPlayer(tostring((i-1)))
-            
-            if player:HasCollectible(TTCG.WITCH_WAND.ID) then
-                NPC:TakeDamage(NPC.MaxHitPoints/2, (DamageFlag.DAMAGE_IGNORE_ARMOR | DamageFlag.DAMAGE_INVINCIBLE), EntityRef(player), 0)
-                TTCG.SFX:Play(TTCG.WITCH_WAND.BOSS_SFX, 1.5, 0, false, 0.6)
-                return
-            end
+        local player = TTCG.SharedHas(TTCG.WITCH_WAND.ID)
+        if player then
+            NPC:AddHealth(-(NPC.MaxHitPoints/2))
+            TTCG.SFX:Play(TTCG.WITCH_WAND.BOSS_SFX, 1.5, 0, false, 0.6)
+            return
         end
     end
 end

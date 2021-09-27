@@ -9,7 +9,7 @@ TTCG.SIGIL_OF_KNOWLEDGE = {
     EFFECT = Isaac.GetEntityVariantByName("Sigil text"),
 
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_SIGIL_PICKUP"),
-    TRIGGER_SFX = SoundEffect.SOUND_BLACK_POOF, Isaac.GetSoundIdByName("TOYCOL_SIGIL_TRIGGER"),
+    TRIGGER_SFX = SoundEffect.SOUND_BLACK_POOF, --Isaac.GetSoundIdByName("TOYCOL_SIGIL_TRIGGER"),
 
     CLEAR_PERCENT = 55,
 
@@ -39,6 +39,19 @@ local clearData = nil
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
+local function revealUltra(level)
+    for i = 0, 169 do -- 13*13 is void floor size
+        local room = level:GetRoomByIdx(i)
+        
+        if room.Data and room.Data.Type == RoomType.ROOM_ULTRASECRET then
+            if room.DisplayFlags & 1 << 2 == 0 then
+                room.DisplayFlags = room.DisplayFlags | 1 << 2
+                return
+            end
+        end
+    end
+end
+
 function mod:OnNewFloor()
     if clearData then
         TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = nil
@@ -46,42 +59,42 @@ function mod:OnNewFloor()
     end
 end
 
+
 function mod:OnEnter()
     if clearData and not clearData.hasTriggered and TTCG.GAME:GetRoom():IsFirstVisit() then
-        local numPlayers = TTCG.GAME:GetNumPlayers()
-        for i=1,numPlayers do
-            local player = TTCG.GAME:GetPlayer(tostring((i-1)))
+        local player = TTCG.SharedHas(TTCG.SIGIL_OF_KNOWLEDGE.ID)
             
-            if player:HasCollectible(TTCG.SIGIL_OF_KNOWLEDGE.ID) then
-                clearData.clearCount = clearData.clearCount+1
+        if player then
+            clearData.clearCount = clearData.clearCount+1
 
-                local level = TTCG.GAME:GetLevel()
-                if clearData.clearCount >= (level:GetRooms().Size/100*TTCG.SIGIL_OF_KNOWLEDGE.CLEAR_PERCENT) then
-                    
-                    -- Trigger mechanical effect
-                    level:SetCanSeeEverything(true)
-                    level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS | LevelCurse.CURSE_OF_THE_LOST)
+            local level = TTCG.GAME:GetLevel()
+            if clearData.clearCount >= (level:GetRooms().Size/100*TTCG.SIGIL_OF_KNOWLEDGE.CLEAR_PERCENT) then
+                
+                -- Trigger mechanical effect
+                level:SetCanSeeEverything(true)
+                level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS | LevelCurse.CURSE_OF_THE_LOST)
 
-                    level:ApplyBlueMapEffect()
-            	    level:ApplyCompassEffect(true)
-                	level:ApplyMapEffect()
+                level:ApplyBlueMapEffect()
+                level:ApplyCompassEffect(true)
+                level:ApplyMapEffect()
 
-                    level:UpdateVisibility()
-                    
-                    -- Trigger visuals
-                    local SigilEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.SIGIL_OF_KNOWLEDGE.EFFECT, 1, Vector(320, 300), Vector(0,0), player)
-                    SigilEffect:GetSprite():Play('Idle')
-                    SigilEffect.DepthOffset = 10000
-                    SigilEffect:Update()
+                revealUltra(level)
 
-                    SigilEffect:GetSprite():Render(Vector(360, 300), Vector(0,0), Vector(0,0));
+                level:UpdateVisibility()
+                
+                -- Trigger visuals
+                local SigilEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.SIGIL_OF_KNOWLEDGE.EFFECT, 1, Vector(320, 300), Vector(0,0), player)
+                SigilEffect:GetSprite():Play('Idle')
+                SigilEffect.DepthOffset = 10000
+                SigilEffect:Update()
 
-                    -- Trigger SFX
-                    TTCG.SFX:Play(TTCG.SIGIL_OF_KNOWLEDGE.TRIGGER_SFX, 1.5, 0, false, 0.75)
+                SigilEffect:GetSprite():Render(Vector(360, 300), Vector(0,0), Vector(0,0));
 
-                    -- Update state
-                    clearData.hasTriggered = true
-                end
+                -- Trigger SFX
+                TTCG.SFX:Play(TTCG.SIGIL_OF_KNOWLEDGE.TRIGGER_SFX, 1.5, 0, false, 0.75)
+
+                -- Update state
+                clearData.hasTriggered = true
             end
         end
     end

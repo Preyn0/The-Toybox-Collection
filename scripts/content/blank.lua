@@ -54,7 +54,7 @@ function mod:OnDamage(entity, _, flags, _, _)
                     entity:Kill()
                 end
             elseif entity:IsEnemy() then
-                entity:AddSlowing(EntityRef(player), 40, 8, Color(0.75, 0.35, 0, 1, 0, 0, 0))
+                entity:AddSlowing(EntityRef(player), 70, 8, Color(0.75, 0.35, 0, 1, 0, 0, 0))
             end
         end
 

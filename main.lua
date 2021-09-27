@@ -23,6 +23,20 @@ function TTCG.SharedOnGrab(sound)
     TTCG.SFX:Stop(SoundEffect.SOUND_CHOIR_UNLOCK)
 end
 
+function TTCG.SharedHas(id)
+    local numPlayers = TTCG.GAME:GetNumPlayers()
+
+    for i=1,numPlayers do
+        local player = TTCG.GAME:GetPlayer(tostring((i-1)))
+        
+        if player:HasCollectible(id) then
+            return player
+        end
+    end
+
+    return false
+end
+
 -- Import content
 local contentImports = {}
 for _, title in pairs(content) do table.insert(contentImports, require(path .. title)) end
