@@ -1,10 +1,7 @@
-local mod = RegisterMod("Blank", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.BLANK = {
+local item = {
     ID = Isaac.GetItemIdByName("Blank"),
     TRIGGER_GFX = Isaac.GetEntityVariantByName("TOYCOL_BLANK_TRIGGER"),
 
@@ -38,12 +35,12 @@ TTCG.BLANK = {
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnDamage(entity, _, flags, _, _)
+function item:OnDamage(entity, _, flags, _, _)
     -- print('damage triggered')
     local player = entity:ToPlayer()
-    local RNG = player:GetCollectibleRNG(TTCG.BLANK.ID)
+    local RNG = player:GetCollectibleRNG(item.ID)
 
-    if player:HasCollectible(TTCG.BLANK.ID) then
+    if player:HasCollectible(item.ID) then
         local entities = Isaac.GetRoomEntities()
 
         for i=1, #entities do
@@ -58,23 +55,23 @@ function mod:OnDamage(entity, _, flags, _, _)
             end
         end
 
-        local effect = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, TTCG.BLANK.TRIGGER_GFX, player.Position + Vector(0, -20), Vector(0,0), nil, 1, 0):ToEffect()
+        local effect = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, item.TRIGGER_GFX, player.Position + Vector(0, -20), Vector(0,0), nil, 1, 0):ToEffect()
         effect.DepthOffset = 1000
         effect:FollowParent(player)
         effect:Update()
     
         TTCG.GAME:ShakeScreen(10)
-        TTCG.SFX:Play(TTCG.BLANK.TRIGGER_SFX, 1, 0, false, 1.25)
+        TTCG.SFX:Play(item.TRIGGER_SFX, 1, 0, false, 1.25)
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.BLANK.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.OnDamage, EntityType.ENTITY_PLAYER)
+TTCG:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, item.OnDamage, EntityType.ENTITY_PLAYER)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.BLANK.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
 
-return TTCG.BLANK
+return item

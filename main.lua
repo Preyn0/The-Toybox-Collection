@@ -1,10 +1,7 @@
-TTCG = RegisterMod("The Toybox Collection", 1)
-
-local json = require("json")
-
 --[[##########################################################################
 ######################## MOD CONTENT IMPORT AND SETUP ########################
 ##########################################################################]]--
+TTCG = RegisterMod("The Toybox Collection", 1)
 
 TTCG.SAVEDATA = {}
 TTCG.SFX = SFXManager()
@@ -52,41 +49,7 @@ end
 -- Import content
 local contentImports = {}
 for _, title in pairs(content) do table.insert(contentImports, require(path .. title)) end
-
-for _, item in ipairs(contentImports) do
-    if EID and item.EID_DESCRIPTIONS then
-        for i=1, #item.EID_DESCRIPTIONS do
-            if item.TYPE == 100 then
-                EID:addCollectible(item.ID, item.EID_DESCRIPTIONS[i].DESC, item.EID_DESCRIPTIONS[i].NAME, item.EID_DESCRIPTIONS[i].LANG)
-            else
-                EID:addTrinket(item.ID, item.EID_DESCRIPTIONS[i].DESC, item.EID_DESCRIPTIONS[i].NAME, item.EID_DESCRIPTIONS[i].LANG)
-            end
-        end
-    end
-    
-    if Encyclopedia and (item.EID_DESCRIPTIONS or item.ENC_DESCRIPTION) then
-        if item.TYPE == 100 then
-            local pools = {}
-            if item.POOLS then
-                for i, pool in ipairs(item.POOLS) do table.insert(pools, (pool+1)) end    
-            end
-            Encyclopedia.AddItem({
-                Class = "Toybox Collection",
-                ModName= "Toybox Collection",
-                ID = item.ID,
-                WikiDesc = item.ENC_DESCRIPTION and item.ENC_DESCRIPTION or Encyclopedia.EIDtoWiki(item.EID_DESCRIPTIONS[1].DESC),
-                Pools = pools
-            })    
-        else
-            Encyclopedia.AddTrinket({
-                Class = "Toybox Collection",
-                ModName= "Toybox Collection",
-                ID = item.ID,
-                WikiDesc = item.ENC_DESCRIPTION and item.ENC_DESCRIPTION or Encyclopedia.EIDtoWiki(item.EID_DESCRIPTIONS[1].DESC)
-            }) 
-        end
-    end
-end
+contentImports = TCC_API:InitContent(contentImports, "Toybox Collection")
 
 --[[ ### DEV CODE ### --
 local function loadItems()

@@ -1,10 +1,7 @@
-local mod = RegisterMod("Ancestral assistance", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.ANCESTRAL_ASSISTANCE = {
+local item = {
     ID = Isaac.GetItemIdByName("Ancestral assistance"),
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_ANCESTRAL_ASSISTANCE_PICKUP"),
     SHOT_SFX = SoundEffect.SOUND_ANGEL_BEAM, --Isaac.GetSoundIdByName("TOYCOL_ANCESTRAL_ASSISTANCE_SHOT"),
@@ -69,7 +66,7 @@ local translatedRotations = {
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
 local function triggerEffect(player, source, flags, type)
-    if player and player:HasCollectible(TTCG.ANCESTRAL_ASSISTANCE.ID) and player:GetCollectibleRNG(TTCG.ANCESTRAL_ASSISTANCE.ID):RandomInt(100)+1 <= TTCG.ANCESTRAL_ASSISTANCE[type] then
+    if player and player:HasCollectible(item.ID) and player:GetCollectibleRNG(item.ID):RandomInt(100)+1 <= item[type] then
         local direction = player:GetAimDirection()
         --TODO: Replace with head direction DEG to vector
         if not direction or direction:Distance(Vector(0,0)) <= 0 then direction = Vector.FromAngle(translatedDirections[player:GetHeadDirection()]) end
@@ -80,62 +77,62 @@ local function triggerEffect(player, source, flags, type)
                 EntityType.ENTITY_TEAR, 
                 0, 
                 translatedRotations[i].Mult and player.Position-(direction*translatedRotations[i].Mult) or player.Position, 
-                (direction*TTCG.ANCESTRAL_ASSISTANCE.VELOCITY_MULTIPLIER):Rotated(translatedRotations[i].Deg),
+                (direction*item.VELOCITY_MULTIPLIER):Rotated(translatedRotations[i].Deg),
                 player,
                 0,
                 source.InitSeed
             ):ToTear()
 
             curTear:AddTearFlags((flags | TearFlags.TEAR_PIERCING))
-            curTear.CollisionDamage = source.CollisionDamage*TTCG.ANCESTRAL_ASSISTANCE.DAMAGE_MULTIPLIER
-            curTear:SetKnockbackMultiplier(TTCG.ANCESTRAL_ASSISTANCE.KNOCKBACK_MULTIPLIER)
+            curTear.CollisionDamage = source.CollisionDamage*item.DAMAGE_MULTIPLIER
+            curTear:SetKnockbackMultiplier(item.KNOCKBACK_MULTIPLIER)
             curTear.CanTriggerStreakEnd = false
             curTear:SetColor(Color(1, 1, 1, 1, 0.75, 0.75, 0.75), 0, 1, false, false)
             curTear:GetData()['TOYCOL_ANC_SPAWN'] = true
         end
 
-        TTCG.SFX:Play(TTCG.ANCESTRAL_ASSISTANCE.SHOT_SFX, 0.5, 0, false, 2.5)
+        TTCG.SFX:Play(item.SHOT_SFX, 0.5, 0, false, 2.5)
 
         Isaac.Spawn(EntityType.ENTITY_EFFECT, 40, 0, Vector(320, 300), Vector(0,0), player)
         --TODO: Add spawn effect
     end
 end
 
-function mod:OnBomb(source)
+function item:OnBomb(source)
     if source.IsFetus then
         triggerEffect(TTCG.GetShooter(source), source, source.Flags, "TRIGGER_CHANCE")
     end
 end
 
-function mod:OnKnife(source, col)
+function item:OnKnife(source, col)
     if col:IsActiveEnemy(false) then 
         triggerEffect(TTCG.GetShooter(source), source, source.TearFlags, "KNIFE_CHANCE")
     end
 end
 
-function mod:OnLaser(source)
+function item:OnLaser(source)
     triggerEffect(TTCG.GetShooter(source), source, source.TearFlags, "LASER_CHANCE")
 end
 
-function mod:OnFire(source)
+function item:OnFire(source)
     if not source:GetData()['TOYCOL_ANC_SPAWN'] then
         triggerEffect(TTCG.GetShooter(source), source, source.TearFlags, "TRIGGER_CHANCE")
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.ANCESTRAL_ASSISTANCE.PICKUP_SFX) end
-function mod:OnCollect(player) player:UseCard(Card.CARD_HOLY, 259) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
+function item:OnCollect(player) player:UseCard(Card.CARD_HOLY, 259) end
 
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,      mod.OnFire )
-mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     mod.OnLaser)
-mod:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, mod.OnKnife)
-mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      mod.OnBomb )
+TTCG:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,      item.OnFire )
+TTCG:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     item.OnLaser)
+TTCG:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, item.OnKnife)
+TTCG:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      item.OnBomb )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.ANCESTRAL_ASSISTANCE.ID)
-TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.ANCESTRAL_ASSISTANCE.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab,    item.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  item.OnCollect, item.ID)
 
-return TTCG.ANCESTRAL_ASSISTANCE
+return item

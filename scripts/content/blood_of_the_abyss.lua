@@ -1,10 +1,9 @@
-local mod = RegisterMod("Blood of the abyss", 1)
 local json = require("json")
 
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.BLOOD_OF_THE_ABYSS = {
+local item = {
     ID = Isaac.GetItemIdByName("Blood of the abyss"),
 
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_BLOOD_OF_THE_ABYSS_PICKUP"),
@@ -57,19 +56,19 @@ local currentHealth = nil
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnPlayerUpdate(player)
+function item:OnPlayerUpdate(player)
     -- Set health and costume if undefined
-    if currentHealth ~= nil and player:HasCollectible(TTCG.BLOOD_OF_THE_ABYSS.ID) and currentHealth[player.ControllerIndex..","..player:GetPlayerType()] == nil then
-        player:AddNullCostume(TTCG.BLOOD_OF_THE_ABYSS.COSTUME_3)
+    if currentHealth ~= nil and player:HasCollectible(item.ID) and currentHealth[player.ControllerIndex..","..player:GetPlayerType()] == nil then
+        player:AddNullCostume(item.COSTUME_3)
         currentHealth[player.ControllerIndex..","..player:GetPlayerType()] = 3
     end
 end
 
-function mod:OnDamage(entity, _, flags, _, _)
+function item:OnDamage(entity, _, flags, _, _)
     local player = entity:ToPlayer()
 
     if currentHealth ~= nil
-    and player:HasCollectible(TTCG.BLOOD_OF_THE_ABYSS.ID) 
+    and player:HasCollectible(item.ID) 
     and (flags & DamageFlag.DAMAGE_INVINCIBLE) == 0 
     and (flags & DamageFlag.DAMAGE_FAKE) == 0 then
         local identifier = player.ControllerIndex..","..player:GetPlayerType()
@@ -87,20 +86,20 @@ function mod:OnDamage(entity, _, flags, _, _)
             currentHealth[identifier] = newHealth
 
             -- Play "take damage" sfx
-            TTCG.SFX:Play(TTCG.BLOOD_OF_THE_ABYSS.DAMAGE_SFX, 3, 0, false, 0.75)
+            TTCG.SFX:Play(item.DAMAGE_SFX, 0.8, 0, false, 0.75)
 
             -- Shake screen
             TTCG.GAME:ShakeScreen(10)
 
             -- Spawn effects
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.BLOOD_OF_THE_ABYSS.DAMAGE_FG_GFX, 1, player.Position, Vector(0, 0), player).DepthOffset = player.DepthOffset + 10
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.BLOOD_OF_THE_ABYSS.DAMAGE_BG_GFX, 1, player.Position, Vector(0, 0), player).DepthOffset = player.DepthOffset - 10
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, item.DAMAGE_FG_GFX, 1, player.Position, Vector(0, 0), player).DepthOffset = player.DepthOffset + 10
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, item.DAMAGE_BG_GFX, 1, player.Position, Vector(0, 0), player).DepthOffset = player.DepthOffset - 10
 
             -- Spawn tears
             local tearColor = Color(1, 1, 1, 1, 0, 0, 0)
             tearColor:SetColorize(0, 0.75, 6, 1)
 
-            for i=1, TTCG.BLOOD_OF_THE_ABYSS.TEARS do
+            for i=1, item.TEARS do
                 local randomVelocity = Vector(math.random(3,5)*(math.random(2) == 1 and -1 or 1), math.random(3,5)*(math.random(2) == 1 and -1 or 1))
                 local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, player.Position - Vector(0, 4), randomVelocity, player):ToTear()
                 newTear.FallingSpeed = -math.random(7, 12)
@@ -113,11 +112,11 @@ function mod:OnDamage(entity, _, flags, _, _)
             player:TakeDamage(1, (DamageFlag.DAMAGE_NO_PENALTIES | DamageFlag.DAMAGE_FAKE | DamageFlag.DAMAGE_INVINCIBLE), EntityRef(player), 0)
 
             -- Remove old costume
-            player:TryRemoveNullCostume(TTCG.BLOOD_OF_THE_ABYSS["COSTUME_" .. tostring(oldHealth)])
+            player:TryRemoveNullCostume(item["COSTUME_" .. tostring(oldHealth)])
 
             -- Add new costume if they still have "lives" left
             if newHealth and newHealth > 0 then
-                player:AddNullCostume(TTCG.BLOOD_OF_THE_ABYSS["COSTUME_" .. tostring(newHealth)])
+                player:AddNullCostume(item["COSTUME_" .. tostring(newHealth)])
             end
 
             -- Cancel damage
@@ -126,40 +125,38 @@ function mod:OnDamage(entity, _, flags, _, _)
     end
 end
 
-function mod:OnNewFloor()
+function item:OnNewFloor()
     -- Reset health state 
     if currentHealth ~= nil then currentHealth = {} end
 end
 
-function mod:OnLoad(isContinued)
+function item:OnLoad(isContinued)
     -- Reset save if new run
     if isContinued then
-        local loadStatus, LoadValue = pcall(json.decode, mod:LoadData())
+        local loadStatus, LoadValue = pcall(json.decode, TTCG:LoadData())
         
         if loadStatus and LoadValue["BLOOD_OF_THE_ABYSS"] then
             currentHealth = LoadValue["BLOOD_OF_THE_ABYSS"]
-        else
-            TTCG.SAVEDATA.BLOOD_OF_THE_ABYSS = nil
-            currentHealth = {}
+            return
         end
-    else
-        mod:RemoveData()
-        TTCG.SAVEDATA.BLOOD_OF_THE_ABYSS = nil
-        currentHealth = {}
     end
+
+    TTCG.SAVEDATA.BLOOD_OF_THE_ABYSS = nil
+    currentHealth = {}
+    TTCG:SaveData(json.encode(TTCG.SAVEDATA))
 end
 
-function mod:OnExit()
+function item:OnExit()
     TTCG.SAVEDATA.BLOOD_OF_THE_ABYSS = currentHealth
-	mod:SaveData(json.encode(TTCG.SAVEDATA))
+	TTCG:SaveData(json.encode(TTCG.SAVEDATA))
     currentHealth = nil
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.BLOOD_OF_THE_ABYSS.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
-function mod:OnCollect(player)
+function item:OnCollect(player)
     local hearts = player:GetEffectiveMaxHearts()
-    if hearts > 0 and not TTCG.BLOOD_OF_THE_ABYSS.PLAYER_BLACKLIST[player:GetPlayerType()] then
+    if hearts > 0 and not item.PLAYER_BLACKLIST[player:GetPlayerType()] then
         local slot1 = player:GetActiveCharge(ActiveSlot.SLOT_PRIMARY)
         local slot2 = player:GetActiveCharge(ActiveSlot.SLOT_SECONDARY)
         local slot3 = player:GetActiveCharge(ActiveSlot.SLOT_POCKET)
@@ -184,13 +181,13 @@ end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OnPlayerUpdate                    )
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,    mod.OnDamage, EntityType.ENTITY_PLAYER)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,     mod.OnNewFloor                        )
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      mod.OnExit                            )
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  mod.OnLoad                            )
+TTCG:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, item.OnPlayerUpdate                    )
+TTCG:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,    item.OnDamage, EntityType.ENTITY_PLAYER)
+TTCG:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,     item.OnNewFloor                        )
+TTCG:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,      item.OnExit                            )
+TTCG:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,  item.OnLoad                            )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.BLOOD_OF_THE_ABYSS.ID)
-TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.BLOOD_OF_THE_ABYSS.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab,    item.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  item.OnCollect, item.ID)
 
-return TTCG.BLOOD_OF_THE_ABYSS
+return item

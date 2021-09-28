@@ -1,10 +1,7 @@
-local mod = RegisterMod("Witch wand", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.WITCH_WAND = {
+local item = {
     ID = Isaac.GetItemIdByName("Witch wand"),
 
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_WAND_PICKUP"),
@@ -82,44 +79,44 @@ TTCG.WITCH_WAND = {
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnPlayerUpdate(player)
-    if player:HasCollectible(TTCG.WITCH_WAND.ID) then
+function item:OnPlayerUpdate(player)
+    if player:HasCollectible(item.ID) then
         player:ClearEntityFlags(EntityFlag.FLAG_FEAR) -- fear immunity
     end
 end
 
-function mod:OnDamage(entity, _, flags, _, _)
+function item:OnDamage(entity, _, flags, _, _)
     local player = entity:ToPlayer()
-    local RNG = player:GetCollectibleRNG(TTCG.WITCH_WAND.ID)
+    local RNG = player:GetCollectibleRNG(item.ID)
 
-    if player:HasCollectible(TTCG.WITCH_WAND.ID) and RNG:RandomInt(100)+1 <= TTCG.WITCH_WAND.SPAWN_CHANCE then
-        local selection = TTCG.WITCH_WAND.ENEMIES[RNG:RandomInt(#TTCG.WITCH_WAND.ENEMIES)+1]
+    if player:HasCollectible(item.ID) and RNG:RandomInt(100)+1 <= item.SPAWN_CHANCE then
+        local selection = item.ENEMIES[RNG:RandomInt(#item.ENEMIES)+1]
         local fren = TTCG.GAME:Spawn(selection.Type, selection.Variant or 0, player.Position, Vector(0,0), player, 0, RNG:GetSeed())
         fren:AddCharmed(EntityRef(player), -1)
-        TTCG.SFX:Play(TTCG.WITCH_WAND.TRIGGER_SFX, 0.75, 0, false, 1.6)
+        TTCG.SFX:Play(item.TRIGGER_SFX, 0.75, 0, false, 1.6)
     end
 end
 
-function mod:OnSpawn(NPC)
-    if TTCG.WITCH_WAND.BOSSES[NPC.Type] then
-        local player = TTCG.SharedHas(TTCG.WITCH_WAND.ID)
+function item:OnSpawn(NPC)
+    if item.BOSSES[NPC.Type] then
+        local player = TTCG.SharedHas(item.ID)
         if player then
             NPC:AddHealth(-(NPC.MaxHitPoints/2))
-            TTCG.SFX:Play(TTCG.WITCH_WAND.BOSS_SFX, 1.5, 0, false, 0.6)
+            TTCG.SFX:Play(item.BOSS_SFX, 1.5, 0, false, 0.6)
             return
         end
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.WITCH_WAND.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OnPlayerUpdate                    )
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,    mod.OnDamage, EntityType.ENTITY_PLAYER)
-mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT,      mod.OnSpawn                           )
+TTCG:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, item.OnPlayerUpdate                    )
+TTCG:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,    item.OnDamage, EntityType.ENTITY_PLAYER)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.WITCH_WAND.ID)
+TCC_API:AddTTCCallback("TCC_NPC_INIT", item.OnSpawn)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
 
-return TTCG.WITCH_WAND
+return item

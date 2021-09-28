@@ -1,10 +1,7 @@
-local mod = RegisterMod("Old relic", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.OLD_RELIC = {
+local item = {
     ID = Isaac.GetItemIdByName("Old relic"),
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_OLD_RELIC_PICKUP"),
     STEP_SFX = SoundEffect.SOUND_HELLBOSS_GROUNDPOUND, --Isaac.GetSoundIdByName("TOYCOL_OLD_RELIC_STEP"),
@@ -45,8 +42,8 @@ local cachedTriggers = {}
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnPlayerUpdate(player)
-    if player:HasCollectible(TTCG.OLD_RELIC.ID) and TTCG.GAME:GetFrameCount() % TTCG.OLD_RELIC.TRIGGER_FRAMES == 0 and not (player.Velocity:Distance(Vector(0,0)) <= 0.5) then
+function item:OnPlayerUpdate(player)
+    if player:HasCollectible(item.ID) and TTCG.GAME:GetFrameCount() % item.TRIGGER_FRAMES == 0 and not (player.Velocity:Distance(Vector(0,0)) <= 0.5) then
         if not cachedTriggers[player.InitSeed] then
             cachedTriggers[player.InitSeed] = true
 
@@ -56,7 +53,7 @@ function mod:OnPlayerUpdate(player)
                 local entity = room:GetGridEntity(i)
                 
                 if entity then
-                    if entity.Desc.Type == GridEntityType.GRID_PIT and room:GetGridPosition(i):Distance(player.Position) < (TTCG.OLD_RELIC.RADIUS+20) then
+                    if entity.Desc.Type == GridEntityType.GRID_PIT and room:GetGridPosition(i):Distance(player.Position) < (item.RADIUS+20) then
                         --TODO: Add particle effect for bridge appearing
                         entity:ToPit():MakeBridge(nil)
                     end
@@ -64,13 +61,13 @@ function mod:OnPlayerUpdate(player)
             end
 
             -- Push enemies
-            local entities = Isaac.FindInRadius(player.Position, TTCG.OLD_RELIC.RADIUS, 8)
+            local entities = Isaac.FindInRadius(player.Position, item.RADIUS, 8)
 
             for i=1, #entities do
                 local entity = entities[i]
 
-                entity:TakeDamage(player.Damage*TTCG.OLD_RELIC.DAMAGE_MULTIPLIER, DamageFlag.DAMAGE_CRUSH, EntityRef(player), 5)
-                entity:AddVelocity((entity.Position - player.Position):Normalized()*TTCG.OLD_RELIC.VELOCITY_MULTIPLIER)
+                entity:TakeDamage(player.Damage*item.DAMAGE_MULTIPLIER, DamageFlag.DAMAGE_CRUSH, EntityRef(player), 5)
+                entity:AddVelocity((entity.Position - player.Position):Normalized()*item.VELOCITY_MULTIPLIER)
             end
 
             TTCG.GAME:ShakeScreen(3)
@@ -85,20 +82,20 @@ function mod:OnPlayerUpdate(player)
             effect.Scale = Vector(0.75, 0.75)
             effect:Update()
 
-            TTCG.SFX:Play(TTCG.OLD_RELIC.STEP_SFX, 0.65, 0, false, 1.25)
+            TTCG.SFX:Play(item.STEP_SFX, 0.65, 0, false, 1.25)
         else
             cachedTriggers[player.InitSeed] = nil
         end
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.OLD_RELIC.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OnPlayerUpdate)
+TTCG:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, item.OnPlayerUpdate)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.OLD_RELIC.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
 
-return TTCG.OLD_RELIC
+return item

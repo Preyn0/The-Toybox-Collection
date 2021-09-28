@@ -1,10 +1,7 @@
-local mod = RegisterMod("Jar of air", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.JAR_OF_AIR = {
+local item = {
     ID = Isaac.GetItemIdByName("Jar of air"),
     
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_JAR_OF_AIR_PICKUP"),
@@ -47,44 +44,44 @@ TTCG.JAR_OF_AIR = {
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
 
-function mod:OnSpawn(NPC)
-    if NPC:IsActiveEnemy(false) and TTCG.SharedHas(TTCG.JAR_OF_AIR.ID) then
+function item:OnSpawn(NPC)
+    if NPC:IsActiveEnemy(false) and TTCG.SharedHas(item.ID) then
         local RNG = RNG()
         RNG:SetSeed(NPC.InitSeed, 1)
 
-        if RNG:RandomInt(100)+1 <= TTCG.JAR_OF_AIR.TRIGGER_CHANCE then
+        if RNG:RandomInt(100)+1 <= item.TRIGGER_CHANCE then
             TTCG.GAME:Fart(NPC.Position, 85, player)
-            NPC:AddPoison(EntityRef(Isaac.GetPlayer(0)), RNG:RandomInt(TTCG.JAR_OF_AIR.ADDED_POISON)+TTCG.JAR_OF_AIR.MIN_POISON, 1)
-            if not TTCG.SFX:IsPlaying(TTCG.JAR_OF_AIR.TRIGGER_SFX) then TTCG.SFX:Play(TTCG.JAR_OF_AIR.TRIGGER_SFX, 1, 0, false, 2.5) end
+            NPC:AddPoison(EntityRef(Isaac.GetPlayer(0)), RNG:RandomInt(item.ADDED_POISON)+item.MIN_POISON, 1)
+            if not TTCG.SFX:IsPlaying(item.TRIGGER_SFX) then TTCG.SFX:Play(item.TRIGGER_SFX, 1, 0, false, 2.5) end
         end
     end
 end
 
-function mod:OnDamage(entity, _, flags, source, _)
-    if entity:ToPlayer():HasCollectible(TTCG.JAR_OF_AIR.ID) and ((flags & DamageFlag.DAMAGE_POISON_BURN) ~= 0 or (source.Type == 1000 and source.Variant == 141)) then
-        TTCG.SFX:Play(TTCG.JAR_OF_AIR.BLOCK_SFX, 1, 0, false, 2)
+function item:OnDamage(entity, _, flags, source, _)
+    if entity:ToPlayer():HasCollectible(item.ID) and ((flags & DamageFlag.DAMAGE_POISON_BURN) ~= 0 or (source.Type == 1000 and source.Variant == 141)) then
+        TTCG.SFX:Play(item.BLOCK_SFX, 1, 0, false, 2)
         return false
     end
 end
 
-function mod:OnCollect(player)
+function item:OnCollect(player)
     player:AddMaxHearts(2)
     player:AddRottenHearts(2)
     
-    for i=1, TTCG.JAR_OF_AIR.LOCUST_AMOUNT do
+    for i=1, item.LOCUST_AMOUNT do
         Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, 305, player.Position, Vector(0,0), player)
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.JAR_OF_AIR.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.OnDamage, EntityType.ENTITY_PLAYER)
-mod:AddCallback(ModCallbacks.MC_POST_NPC_INIT,   mod.OnSpawn                           )
+TTCG:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, item.OnDamage, EntityType.ENTITY_PLAYER)
+TTCG:AddCallback(ModCallbacks.MC_POST_NPC_INIT,   item.OnSpawn                           )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.JAR_OF_AIR.ID)
-TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.JAR_OF_AIR.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab,    item.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  item.OnCollect, item.ID)
 
-return TTCG.JAR_OF_AIR
+return item

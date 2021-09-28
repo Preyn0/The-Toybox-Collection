@@ -1,10 +1,7 @@
-local mod = RegisterMod("Concussion", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.CONCUSSION = {
+local item = {
     ID = Isaac.GetItemIdByName("Concussion"),
     
     PICKUP_SFX = SoundEffect.SOUND_1UP, --Isaac.GetSoundIdByName("TOYCOL_CONCUSSION_PICKUP"),
@@ -55,8 +52,8 @@ local swipeDirections = {
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
-function mod:OnUse(_, RNG, player, _, _, _)
-    local entities = Isaac.FindInRadius(player.Position, TTCG.CONCUSSION.RADIUS, 26)
+function item:OnUse(_, RNG, player, _, _, _)
+    local entities = Isaac.FindInRadius(player.Position, item.RADIUS, 26)
     local hasHit = false
 
     for i=1, #entities do
@@ -70,20 +67,20 @@ function mod:OnUse(_, RNG, player, _, _, _)
         elseif ent.Type ~= EntityType.ENTITY_PLAYER and ent:IsActiveEnemy(false) then
             ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK | EntityFlag.FLAG_APPLY_IMPACT_DAMAGE | EntityFlag.FLAG_AMBUSH)
             ent:AddVelocity((ent.Position - player.Position):Normalized()*45)
-            ent:TakeDamage(player.Damage*TTCG.CONCUSSION.DAMAGE_MULTIPLIER, (DamageFlag.DAMAGE_EXPLOSION | DamageFlag.DAMAGE_CRUSH), EntityRef(player), 0)
+            ent:TakeDamage(player.Damage*item.DAMAGE_MULTIPLIER, (DamageFlag.DAMAGE_EXPLOSION | DamageFlag.DAMAGE_CRUSH), EntityRef(player), 0)
         
-            if not ent:IsBoss() or RNG:RandomInt(100)+1 <= TTCG.CONCUSSION.BOSS_CHANCE then
+            if not ent:IsBoss() or RNG:RandomInt(100)+1 <= item.BOSS_CHANCE then
                 ent:AddConfusion(EntityRef(player), 90, true)
             end
 
             ent:SetColor(Color(1, 1, 1, 1, 0.99, 0.10, 0.40), 15, 99, true, false)
 
-            local starGfx = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, TTCG.CONCUSSION.HIT_STAR_GFX, ent.Position, Vector(0,0), nil, 1, 0):ToEffect()
+            local starGfx = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, item.HIT_STAR_GFX, ent.Position, Vector(0,0), nil, 1, 0):ToEffect()
             starGfx:GetSprite().Rotation = math.random(360)
             starGfx.DepthOffset = ent.DepthOffset + 100
             starGfx:Update()
 
-            local lineGfx = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, TTCG.CONCUSSION.HIT_LINE_GFX, ent.Position, Vector(0,0), nil, 1, 0):ToEffect()
+            local lineGfx = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, item.HIT_LINE_GFX, ent.Position, Vector(0,0), nil, 1, 0):ToEffect()
             lineGfx:GetSprite().Rotation = (player.Position - ent.Position):GetAngleDegrees()
             lineGfx.DepthOffset = starGfx.DepthOffset + 100
             lineGfx:Update()
@@ -92,27 +89,27 @@ function mod:OnUse(_, RNG, player, _, _, _)
         end
     end
 
-    local swipe = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, TTCG.CONCUSSION.SWIPE_GFX, player.Position + Vector(0, -20), Vector(0,0), nil, 1, 0):ToEffect()
+    local swipe = TTCG.GAME:Spawn(EntityType.ENTITY_EFFECT, item.SWIPE_GFX, player.Position + Vector(0, -20), Vector(0,0), nil, 1, 0):ToEffect()
     swipe.DepthOffset = player.DepthOffset + 100
     swipe:GetSprite().Rotation = swipeDirections[player:GetHeadDirection()]
     swipe:FollowParent(player)
     swipe:Update()
 
-    TTCG.SFX:Play(TTCG.CONCUSSION.SWIPE_SFX, 1, 0)
+    TTCG.SFX:Play(item.SWIPE_SFX, 1, 0)
 
     if hasHit then
         TTCG.GAME:ShakeScreen(16)
-        TTCG.SFX:Play(TTCG.CONCUSSION.HIT_SFX, 3, 0, false, 0.65)
+        TTCG.SFX:Play(item.HIT_SFX, 3, 0, false, 0.65)
     end
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.CONCUSSION.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
-function mod:OnCollect(player)
+function item:OnCollect(player)
     if player:GetActiveItem(ActiveSlot.SLOT_POCKET) == 0 then
-        if player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == TTCG.CONCUSSION.ID or player:GetActiveItem(ActiveSlot.SLOT_SECONDARY) == TTCG.CONCUSSION.ID then
-            player:RemoveCollectible(TTCG.CONCUSSION.ID)
-            player:SetPocketActiveItem(TTCG.CONCUSSION.ID, ActiveSlot.SLOT_POCKET, false)
+        if player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == item.ID or player:GetActiveItem(ActiveSlot.SLOT_SECONDARY) == item.ID then
+            player:RemoveCollectible(item.ID)
+            player:SetPocketActiveItem(item.ID, ActiveSlot.SLOT_POCKET, false)
         end
     end
 end
@@ -120,9 +117,9 @@ end
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.OnUse, TTCG.CONCUSSION.ID)
+TTCG:AddCallback(ModCallbacks.MC_USE_ITEM, item.OnUse, item.ID)
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab,    TTCG.CONCUSSION.ID)
-TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  mod.OnCollect, TTCG.CONCUSSION.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab,    item.ID)
+TCC_API:AddTTCCallback("TCC_EXIT_QUEUE",  item.OnCollect, item.ID)
 
-return TTCG.CONCUSSION
+return item

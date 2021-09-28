@@ -1,10 +1,9 @@
-local mod = RegisterMod("Sigil of knowledge", 1)
 local json = require("json")
 
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.SIGIL_OF_KNOWLEDGE = {
+local item = {
     ID = Isaac.GetItemIdByName("Sigil of knowledge"),
     EFFECT = Isaac.GetEntityVariantByName("Sigil text"),
 
@@ -52,7 +51,7 @@ local function revealUltra(level)
     end
 end
 
-function mod:OnNewFloor()
+function item:OnNewFloor()
     if clearData then
         TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = nil
         clearData = { clearCount = 0, hasTriggered = false } 
@@ -60,15 +59,15 @@ function mod:OnNewFloor()
 end
 
 
-function mod:OnEnter()
+function item:OnEnter()
     if clearData and not clearData.hasTriggered and TTCG.GAME:GetRoom():IsFirstVisit() then
-        local player = TTCG.SharedHas(TTCG.SIGIL_OF_KNOWLEDGE.ID)
+        local player = TTCG.SharedHas(item.ID)
             
         if player then
             clearData.clearCount = clearData.clearCount+1
 
             local level = TTCG.GAME:GetLevel()
-            if clearData.clearCount >= (level:GetRooms().Size/100*TTCG.SIGIL_OF_KNOWLEDGE.CLEAR_PERCENT) then
+            if clearData.clearCount >= (level:GetRooms().Size/100*item.CLEAR_PERCENT) then
                 
                 -- Trigger mechanical effect
                 level:SetCanSeeEverything(true)
@@ -83,7 +82,7 @@ function mod:OnEnter()
                 level:UpdateVisibility()
                 
                 -- Trigger visuals
-                local SigilEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.SIGIL_OF_KNOWLEDGE.EFFECT, 1, Vector(320, 300), Vector(0,0), player)
+                local SigilEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, item.EFFECT, 1, Vector(320, 300), Vector(0,0), player)
                 SigilEffect:GetSprite():Play('Idle')
                 SigilEffect.DepthOffset = 10000
                 SigilEffect:Update()
@@ -91,7 +90,7 @@ function mod:OnEnter()
                 SigilEffect:GetSprite():Render(Vector(360, 300), Vector(0,0), Vector(0,0));
 
                 -- Trigger SFX
-                TTCG.SFX:Play(TTCG.SIGIL_OF_KNOWLEDGE.TRIGGER_SFX, 1.5, 0, false, 0.75)
+                TTCG.SFX:Play(item.TRIGGER_SFX, 1.5, 0, false, 0.75)
 
                 -- Update state
                 clearData.hasTriggered = true
@@ -100,40 +99,39 @@ function mod:OnEnter()
     end
 end
 
-function mod:OnLoad(isContinued)
+function item:OnLoad(isContinued)
     -- Reset save if new run
     if isContinued then
-        local loadStatus, LoadValue = pcall(json.decode, mod:LoadData())
+        local loadStatus, LoadValue = pcall(json.decode, TTCG:LoadData())
         
         if loadStatus and LoadValue["SIGIL_OF_KNOWLEDGE"] then
             clearData = LoadValue["SIGIL_OF_KNOWLEDGE"]
-        else
-            TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = nil
-            clearData = { clearCount = 0, hasTriggered = false }
+            return
         end
-    else
-        mod:RemoveData()
-        TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = nil
-        clearData = { clearCount = 0, hasTriggered = false }
     end
+
+    
+    TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = nil
+    clearData = { clearCount = 0, hasTriggered = false }
+    TTCG:SaveData(json.encode(TTCG.SAVEDATA))
 end
 
-function mod:OnExit()
+function item:OnExit()
     TTCG.SAVEDATA.SIGIL_OF_KNOWLEDGE = clearData
-	mod:SaveData(json.encode(TTCG.SAVEDATA))
+	TTCG:SaveData(json.encode(TTCG.SAVEDATA))
     clearData = nil
 end
 
-function mod:OnGrab() TTCG.SharedOnGrab(TTCG.SIGIL_OF_KNOWLEDGE.PICKUP_SFX) end
+function item:OnGrab() TTCG.SharedOnGrab(item.PICKUP_SFX) end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,        mod.OnNewFloor)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,         mod.OnEnter   )
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,     mod.OnLoad    )
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,         mod.OnExit    )
+TTCG:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL,        item.OnNewFloor)
+TTCG:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,         item.OnEnter   )
+TTCG:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,     item.OnLoad    )
+TTCG:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,         item.OnExit    )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.SIGIL_OF_KNOWLEDGE.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
 
-return TTCG.SIGIL_OF_KNOWLEDGE
+return item

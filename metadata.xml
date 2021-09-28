@@ -71,10 +71,9 @@ When shooting the player has a chance to trigger this item's effect. Upon trigge
 [h1] Credits [/h1]
 Taking a peek at other mods is something which i'll often do if i cannot figure something out myself. Credit to the &quot;[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2557887449]Red Map mod[/url]&quot; which was used as an example for the &quot;Sigil of knowledge&quot; item logic.
 </description>
-    <version>1.8</version>
+    <version>1.11</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
     <tag id="Active Items"/>
-    <tag id="Trinkets"/>
 </metadata>

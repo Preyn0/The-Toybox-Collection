@@ -1,10 +1,7 @@
-local mod = RegisterMod("Wow factor!", 1)
-local json = require("json")
-
 --##############################################################################--
 --#################################### DATA ####################################--
 --##############################################################################--
-TTCG.WOW_FACTOR = {
+local item  = {
     ID = Isaac.GetItemIdByName("Wow factor!"),
     EFFECT = Isaac.GetEntityVariantByName("Wow pickup effect"),
     
@@ -46,44 +43,44 @@ local cachedPlayers = nil
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
 local function triggerEffect(player, type)
-    if player and player:HasCollectible(TTCG.WOW_FACTOR.ID) then
+    if player and player:HasCollectible(item.ID) then
         local identifier = player.ControllerIndex..","..player:GetPlayerType()
 
-        if not cachedPlayers[identifier] and player:GetCollectibleRNG(TTCG.WOW_FACTOR.ID):RandomInt(100)+1 <= TTCG.WOW_FACTOR[type] then
+        if not cachedPlayers[identifier] and player:GetCollectibleRNG(item.ID):RandomInt(100)+1 <= item[type] then
             cachedPlayers[identifier] = {
-                ['amount'] = TTCG.WOW_FACTOR.AMOUNT, 
+                ['amount'] = item.AMOUNT, 
                 ['player'] = player 
             }
         end
     end
 end
 
-function mod:OnBomb(source)
+function item:OnBomb(source)
     if cachedPlayers and source.IsFetus then 
         triggerEffect(TTCG.GetShooter(source), "CHANCE")
     end
 end
 
-function mod:OnKnife(source, col)
+function item:OnKnife(source, col)
     if cachedPlayers and col:IsActiveEnemy(false) then 
         triggerEffect(TTCG.GetShooter(source), "KNIFE_CHANCE")
     end
 end
 
-function mod:OnLaser(source)
+function item:OnLaser(source)
     if cachedPlayers then 
         triggerEffect(TTCG.GetShooter(source), "LASER_CHANCE")
     end
 end
 
-function mod:OnFire(source)
+function item:OnFire(source)
     if cachedPlayers then 
         triggerEffect(TTCG.GetShooter(source), "CHANCE")
     end
 end
 
-function mod:OnUpdate()
-    if cachedPlayers ~= nil and TTCG.GAME:GetFrameCount() % TTCG.WOW_FACTOR.RATE == 0 then
+function item:OnUpdate()
+    if cachedPlayers ~= nil and TTCG.GAME:GetFrameCount() % item.RATE == 0 then
         for key, value in pairs(cachedPlayers) do
             local player = value.player
 
@@ -94,7 +91,7 @@ function mod:OnUpdate()
                 newTear.Scale = 0.6
                 newTear:SetColor(Color(1, 1, 1, 1, 0.25, 0.75, 0.25), 0, 1, false, false)
 
-                TTCG.SFX:Play(TTCG.WOW_FACTOR.SPAWN_SFX, 2, 3, false, 4)
+                TTCG.SFX:Play(item.SPAWN_SFX, 2, 3, false, 4)
             end
 
             if value.amount > 1 then
@@ -106,31 +103,31 @@ function mod:OnUpdate()
     end
 end
 
-function mod:OnGrab(player)
-    local Effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, TTCG.WOW_FACTOR.EFFECT, 1, player.Position - Vector(0, 4), Vector(0, -1.25), player)
+function item:OnGrab(player)
+    local Effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, item.EFFECT, 1, player.Position - Vector(0, 4), Vector(0, -1.25), player)
     local Sprite = Effect:GetSprite()
     Sprite:Play('Idle')
     Sprite.Scale = Vector(1.4,1.4)
     Effect.DepthOffset = 10000
     Effect:Update()
 
-    TTCG.SharedOnGrab(TTCG.WOW_FACTOR.PICKUP_SFX)
+    TTCG.SharedOnGrab(item.PICKUP_SFX)
 end
 
-function mod:OnStart() cachedPlayers = {} end
-function mod:OnExit() cachedPlayers = nil end
+function item:OnStart() cachedPlayers = {} end
+function item:OnExit() cachedPlayers = nil end
 
 --##############################################################################--
 --############################ CALLBACKS AND EXPORT ############################--
 --##############################################################################--
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,      mod.OnFire  )
-mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     mod.OnLaser )
-mod:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, mod.OnKnife )
-mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      mod.OnBomb  )
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE,         mod.OnUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,   mod.OnStart )
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,       mod.OnExit  )
+TTCG:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR,      item.OnFire  )
+TTCG:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     item.OnLaser )
+TTCG:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, item.OnKnife )
+TTCG:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      item.OnBomb  )
+TTCG:AddCallback(ModCallbacks.MC_POST_UPDATE,         item.OnUpdate)
+TTCG:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,   item.OnStart )
+TTCG:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,       item.OnExit  )
 
-TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", mod.OnGrab, TTCG.WOW_FACTOR.ID)
+TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
 
-return TTCG.WOW_FACTOR
+return item
