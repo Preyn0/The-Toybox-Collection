@@ -64,7 +64,7 @@ function mod:OnDamage(entity, _, flags, _, _)
         effect:Update()
     
         TTCG.GAME:ShakeScreen(10)
-        TTCG.SFX:Play(TTCG.BLANK.TRIGGER_SFX, 1, 0, false, 1.25, 0.75)
+        TTCG.SFX:Play(TTCG.BLANK.TRIGGER_SFX, 1, 0, false, 1.25)
     end
 end
 

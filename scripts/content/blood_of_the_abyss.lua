@@ -87,7 +87,7 @@ function mod:OnDamage(entity, _, flags, _, _)
             currentHealth[identifier] = newHealth
 
             -- Play "take damage" sfx
-            TTCG.SFX:Play(TTCG.BLOOD_OF_THE_ABYSS.DAMAGE_SFX, 3, 0, false, 0.75, 0)
+            TTCG.SFX:Play(TTCG.BLOOD_OF_THE_ABYSS.DAMAGE_SFX, 3, 0, false, 0.75)
 
             -- Shake screen
             TTCG.GAME:ShakeScreen(10)

@@ -85,7 +85,7 @@ function mod:OnPlayerUpdate(player)
             effect.Scale = Vector(0.75, 0.75)
             effect:Update()
 
-            TTCG.SFX:Play(TTCG.OLD_RELIC.STEP_SFX, 0.65, 0, false, 1.25, 0.5)
+            TTCG.SFX:Play(TTCG.OLD_RELIC.STEP_SFX, 0.65, 0, false, 1.25)
         else
             cachedTriggers[player.InitSeed] = nil
         end

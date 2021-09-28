@@ -88,7 +88,7 @@ for _, item in ipairs(contentImports) do
     end
 end
 
----[[ ### DEV CODE ### --
+--[[ ### DEV CODE ### --
 local function loadItems()
     if TTCG.GAME:GetFrameCount() == 0 then
         local offset = 0

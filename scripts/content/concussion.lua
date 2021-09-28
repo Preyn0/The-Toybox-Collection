@@ -102,7 +102,7 @@ function mod:OnUse(_, RNG, player, _, _, _)
 
     if hasHit then
         TTCG.GAME:ShakeScreen(16)
-        TTCG.SFX:Play(TTCG.CONCUSSION.HIT_SFX, 3, 0, false, 0.65, 5)
+        TTCG.SFX:Play(TTCG.CONCUSSION.HIT_SFX, 3, 0, false, 0.65)
     end
 end
 
