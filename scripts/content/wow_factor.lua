@@ -13,6 +13,7 @@ local item  = {
     LASER_CHANCE = 9,
     AMOUNT = 35,
     RATE = 3,
+    MAX_TRIGGERS = 5,
 
     TYPE = 100,
     POOLS = {
@@ -28,6 +29,7 @@ local item  = {
             {str = "While shooting grants a 3% chance to start spawning a stream of floating poisonous tears."},
             {str = "After spawning 35 tears the effect stops."},
             {str = "If the player is not moving then the stream of tears pauses."},
+            {str = "No more than 5 times may the item trigger per room."},
         },
         { -- Trivia
             {str = "Trivia", fsize = 2, clr = 3, halign = 0},
@@ -38,12 +40,13 @@ local item  = {
 }
 
 local cachedPlayers = nil
+local triggers = 0
 
 --##############################################################################--
 --################################# ITEM LOGIC #################################--
 --##############################################################################--
 local function triggerEffect(player, type)
-    if player and player:HasCollectible(item.ID) then
+    if player and player:HasCollectible(item.ID) and triggers < item.MAX_TRIGGERS then
         local identifier = player.ControllerIndex..","..player:GetPlayerType()
 
         if not cachedPlayers[identifier] and player:GetCollectibleRNG(item.ID):RandomInt(100)+1 <= item[type] then
@@ -51,6 +54,7 @@ local function triggerEffect(player, type)
                 ['amount'] = item.AMOUNT, 
                 ['player'] = player 
             }
+            triggers = triggers+1
         end
     end
 end
@@ -114,7 +118,7 @@ function item:OnGrab(player)
     TTCG.SharedOnGrab(item.PICKUP_SFX)
 end
 
-function item:OnStart() cachedPlayers = {} end
+function item:OnReset() cachedPlayers = {}; triggers = 0 end
 function item:OnExit() cachedPlayers = nil end
 
 --##############################################################################--
@@ -125,7 +129,8 @@ TTCG:AddCallback(ModCallbacks.MC_POST_LASER_INIT,     item.OnLaser )
 TTCG:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, item.OnKnife )
 TTCG:AddCallback(ModCallbacks.MC_POST_BOMB_INIT,      item.OnBomb  )
 TTCG:AddCallback(ModCallbacks.MC_POST_UPDATE,         item.OnUpdate)
-TTCG:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,   item.OnStart )
+TTCG:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,       item.OnReset )
+TTCG:AddCallback(ModCallbacks.MC_POST_GAME_STARTED,   item.OnReset )
 TTCG:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT,       item.OnExit  )
 
 TCC_API:AddTTCCallback("TCC_ENTER_QUEUE", item.OnGrab, item.ID)
